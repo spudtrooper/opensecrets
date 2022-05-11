@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
-	"log"
 
 	"github.com/pkg/errors"
 	"github.com/spudtrooper/goutil/flags"
@@ -17,11 +16,12 @@ var (
 	userCreds = flag.String("user_creds", ".user_creds.json", "file with user credentials")
 )
 
-// type core represents the core gettr core
+// core is an opaque API client for opensecrets.org
 type core struct {
 	apiKEY string
 }
 
+// NewClientFromFlags creates a new client from command line flags
 func NewClientFromFlags() (*core, error) {
 	if *apiKEY != "" {
 		client := NewClient(*apiKEY)
@@ -37,45 +37,14 @@ func NewClientFromFlags() (*core, error) {
 	return nil, errors.Errorf("Must set --user & --token or --creds_file")
 }
 
+// NewClient creates a new client directly from the API Key
 func NewClient(apiKEY string) *core {
 	return &core{
 		apiKEY: apiKEY,
 	}
 }
 
-type Creds struct {
-	ApiKey string `json:"api_key"`
-}
-
-func ReadCredsFromFlags() (Creds, error) {
-	return readCreds(*userCreds)
-}
-
-func WriteCredsFromFlags(creds Creds) error {
-	b, err := json.Marshal(&creds)
-	if err != nil {
-		return err
-	}
-	if err := ioutil.WriteFile(*userCreds, b, 0755); err != nil {
-		return err
-	}
-	log.Printf("wrote to %s", *userCreds)
-	return nil
-}
-
-func readCreds(credsFile string) (creds Creds, ret error) {
-	credsBytes, err := ioutil.ReadFile(credsFile)
-	if err != nil {
-		ret = err
-		return
-	}
-	if err := json.Unmarshal(credsBytes, &creds); err != nil {
-		ret = err
-		return
-	}
-	return
-}
-
+// NewClientFromFile creates a new client from a JSON file like `user_creds-example.json`
 func NewClientFromFile(credsFile string) (*core, error) {
 	creds, err := readCreds(credsFile)
 	if err != nil {
@@ -84,6 +53,22 @@ func NewClientFromFile(credsFile string) (*core, error) {
 	return &core{
 		apiKEY: creds.ApiKey,
 	}, nil
+}
+
+type creds struct {
+	ApiKey string `json:"api_key"`
+}
+
+func readCreds(credsFile string) (*creds, error) {
+	credsBytes, err := ioutil.ReadFile(credsFile)
+	if err != nil {
+		return nil, err
+	}
+	var creds creds
+	if err := json.Unmarshal(credsBytes, &creds); err != nil {
+		return nil, err
+	}
+	return &creds, nil
 }
 
 func (c *core) createRoute(method string, params ...request.Param) string {
@@ -104,8 +89,7 @@ func (c *core) get(method string, payload interface{}, params ...request.Param) 
 	headers := map[string]string{
 		"user-agent": `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.54 Safari/537.36`,
 	}
-	_, err := request.Get(uri, payload, request.RequestExtraHeaders(headers))
-	if err != nil {
+	if _, err := request.Get(uri, payload, request.RequestExtraHeaders(headers)); err != nil {
 		return err
 	}
 
