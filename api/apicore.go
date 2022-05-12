@@ -182,3 +182,57 @@ func (c *core) GetCandSummary(cid string, optss ...CandSummaryOption) (*GetCandS
 	}
 	return res, nil
 }
+
+type Recipient struct {
+	CandName string `json:"cand_name"`
+	Cid      string `json:"cid"`
+	Cycle    string `json:"cycle"`
+	Origin   string `json:"origin"`
+	Source   string `json:"source"`
+	Notice   string `json:"notice"`
+}
+
+type Contributor struct {
+	OrgName string `json:"org_name"`
+	Total   string `json:"total"`
+	Pacs    string `json:"pacs"`
+	Indivs  string `json:"indivs"`
+}
+
+type GetCandContribInfo struct {
+	Recipient    Recipient
+	Contributors []Contributor
+}
+
+func (c *core) GetCandContrib(cid string, optss ...CandContribOption) (*GetCandContribInfo, error) {
+	opts := MakeCandContribOptions(optss...)
+
+	type resultT struct {
+		Response struct {
+			Contributors struct {
+				Attributes  Recipient `json:"@attributes"`
+				Contributor []struct {
+					Attributes Contributor `json:"@attributes"`
+				} `json:"contributor"`
+			} `json:"contributors"`
+		} `json:"response"`
+	}
+	var result resultT
+
+	params := request.Params{
+		request.MakeParam("cid", cid),
+	}
+	params = params.AddIfNotDefault("cycle", opts.Cycle())
+	err := c.get("candContrib", &result, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	res := &GetCandContribInfo{
+		Recipient: result.Response.Contributors.Attributes,
+	}
+	for _, c := range result.Response.Contributors.Contributor {
+		res.Contributors = append(res.Contributors, c.Attributes)
+	}
+	return res, nil
+}

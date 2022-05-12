@@ -61,6 +61,16 @@ func Main(ctx context.Context) error {
 		return nil
 	})
 
+	app.Register("GetCandContrib", func(context.Context) error {
+		requireStringFlag(cid, "cid")
+		info, err := client.GetCandContrib(*cid, api.CandContribCycle(*cycle))
+		if err != nil {
+			return err
+		}
+		log.Printf("GetCandContrib: %s", mustFormatString(info))
+		return nil
+	})
+
 	if err := app.Run(ctx); err != nil {
 		return err
 	}
