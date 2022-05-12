@@ -15,9 +15,10 @@ import (
 )
 
 var (
-	id   = flags.String("id", "global ID")
-	cid  = flags.String("cid", "candidate ID")
-	year = flags.Int("year", "global year")
+	id    = flags.String("id", "global ID")
+	cid   = flags.String("cid", "candidate ID")
+	year  = flags.Int("year", "global year")
+	cycle = flags.Int("cycle", "global cycle")
 )
 
 func Main(ctx context.Context) error {
@@ -47,6 +48,16 @@ func Main(ctx context.Context) error {
 			return err
 		}
 		log.Printf("GetMemPFDprofile: %s", mustFormatString(info))
+		return nil
+	})
+
+	app.Register("GetCandSummary", func(context.Context) error {
+		requireStringFlag(cid, "cid")
+		info, err := client.GetCandSummary(*cid, api.CandSummaryCycle(*cycle))
+		if err != nil {
+			return err
+		}
+		log.Printf("GetCandSummary: %s", mustFormatString(info))
 		return nil
 	})
 

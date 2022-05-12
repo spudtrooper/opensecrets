@@ -119,12 +119,10 @@ func (c *core) GetMemPFDprofile(cid string, optss ...MemPFDprofileOption) (*GetM
 	}
 	var result resultT
 
-	params := []request.Param{
+	params := request.Params{
 		request.MakeParam("cid", cid),
 	}
-	if opts.Year() > 0 {
-		params = append(params, request.MakeParam("year", opts.Year()))
-	}
+	params = params.AddIfNotDefault("year", opts.Year())
 	err := c.get("memPFDprofile", &result, params...)
 	if err != nil {
 		return nil, err
@@ -132,6 +130,55 @@ func (c *core) GetMemPFDprofile(cid string, optss ...MemPFDprofileOption) (*GetM
 
 	res := &GetMemPFDprofileInfo{
 		MemPFDprofileInfo: result.Response.MemberProfile.Attributes,
+	}
+	return res, nil
+}
+
+type GetCandSummaryInfo struct {
+	CandSummaryInfo CandSummaryInfo
+}
+
+type CandSummaryInfo struct {
+	CandName     string `json:"cand_name"`
+	Cid          string `json:"cid"`
+	Cycle        string `json:"cycle"`
+	State        string `json:"state"`
+	Party        string `json:"party"`
+	Chamber      string `json:"chamber"`
+	FirstElected string `json:"first_elected"`
+	NextElection string `json:"next_election"`
+	Total        string `json:"total"`
+	Spent        string `json:"spent"`
+	CashOnHand   string `json:"cash_on_hand"`
+	Debt         string `json:"debt"`
+	Origin       string `json:"origin"`
+	Source       string `json:"source"`
+	LastUpdated  string `json:"last_updated"`
+}
+
+func (c *core) GetCandSummary(cid string, optss ...CandSummaryOption) (*GetCandSummaryInfo, error) {
+	opts := MakeCandSummaryOptions(optss...)
+
+	type resultT struct {
+		Response struct {
+			Summary struct {
+				Attributes CandSummaryInfo `json:"@attributes"`
+			} `json:"summary"`
+		} `json:"response"`
+	}
+	var result resultT
+
+	params := request.Params{
+		request.MakeParam("cid", cid),
+	}
+	params = params.AddIfNotDefault("cycle", opts.Cycle())
+	err := c.get("candSummary", &result, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	res := &GetCandSummaryInfo{
+		CandSummaryInfo: result.Response.Summary.Attributes,
 	}
 	return res, nil
 }
