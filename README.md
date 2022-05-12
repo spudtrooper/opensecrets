@@ -4,7 +4,7 @@ This is a golang API client for [opensecrets.org](http://opensecrets.org)
 
 ## Example usage
 
-See `cli/main.go`
+See [cli/main.go](https://github.com/spudtrooper/opensecrets/blob/main/cli/main.go)
 
 ## CLI
 
