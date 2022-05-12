@@ -164,3 +164,39 @@ func TestGetCandContrib(t *testing.T) {
 		})
 	}
 }
+
+func TestGetCandIndustry(t *testing.T) {
+	tests := []struct {
+		name  string
+		cid   string
+		cycle int
+	}{
+		{
+			name: "no cycle",
+			cid:  "N00007360",
+		},
+		{
+			name:  "with cycle",
+			cid:   "N00007360",
+			cycle: 2016,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cid, cycle := tt.cid, tt.cycle
+			client := makeClient(t)
+			info, err := client.GetCandIndustry(cid, GetCandIndustryCycle(cycle))
+			if err != nil {
+				t.Fatalf("GetCandIndustry(%q,%d): %v", cid, cycle, err)
+			}
+			if want, got := "Nancy Pelosi (D)", info.Recipient.CandName; want != got {
+				t.Errorf("GetCandIndustry(%q,%d).CandName: got %q, wanted %q", cid, cycle, got, want)
+			}
+			if cycle != 0 {
+				if want, got := fmt.Sprintf("%d", cycle), info.Recipient.Cycle; want != got {
+					t.Errorf("GetCandIndustry(%q,%d).Cycle: got %q, wanted %q", cid, cycle, got, want)
+				}
+			}
+		})
+	}
+}
