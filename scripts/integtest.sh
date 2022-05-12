@@ -26,5 +26,6 @@ $scripts/run.sh GetCongCmteIndus -cmte HARM -ind F10
 $scripts/run.sh GetCongCmteIndus -cmte HARM -ind F10  --congno 11
 $scripts/run.sh GetOrgs --org Goldman
 $scripts/run.sh GetOrgSummary --org_id D000000125
+$scripts/run.sh GetIndependentExpend
 
 echo "OK"

@@ -138,6 +138,15 @@ func Main(ctx context.Context) error {
 		return nil
 	})
 
+	app.Register("GetIndependentExpend", func(context.Context) error {
+		info, err := client.GetIndependentExpend()
+		if err != nil {
+			return err
+		}
+		log.Printf("GetIndependentExpend: %s", mustFormatString(info))
+		return nil
+	})
+
 	if err := app.Run(ctx); err != nil {
 		return err
 	}
