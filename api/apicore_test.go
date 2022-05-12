@@ -12,7 +12,7 @@ func makeClient(t *testing.T) *core {
 	if !io.FileExists(f) {
 		t.Fatalf("add your credentials to %s", f)
 	}
-	client, err := NewClientFromFile("../.user_creds.json")
+	client, err := NewClientFromFile(f)
 	if err != nil {
 		t.Fatalf("NewClientFromFlags: %v", err)
 	}
