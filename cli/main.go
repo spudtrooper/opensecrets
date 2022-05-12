@@ -22,6 +22,7 @@ var (
 	cycle  = flags.Int("cycle", "global cycle")
 	congno = flags.Int("congno", "global congno")
 	ind    = flags.String("ind", "global ind")
+	org    = flags.String("org", "candidate org")
 )
 
 func Main(ctx context.Context) error {
@@ -113,6 +114,16 @@ func Main(ctx context.Context) error {
 			return err
 		}
 		log.Printf("GetCongCmteIndus: %s", mustFormatString(info))
+		return nil
+	})
+
+	app.Register("GetOrgs", func(context.Context) error {
+		requireStringFlag(org, "org")
+		info, err := client.GetOrgs(*org)
+		if err != nil {
+			return err
+		}
+		log.Printf("GetOrgs: %s", mustFormatString(info))
 		return nil
 	})
 
