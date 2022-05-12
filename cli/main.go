@@ -82,14 +82,24 @@ func Main(ctx context.Context) error {
 		return nil
 	})
 
-	app.Register("GetCandByIndustry", func(context.Context) error {
+	app.Register("GetCandByInd", func(context.Context) error {
 		requireStringFlag(cid, "cid")
 		requireStringFlag(ind, "ind")
-		info, err := client.GetCandByIndustry(*cid, *ind, api.GetCandByIndustryCycle(*cycle))
+		info, err := client.GetCandByInd(*cid, *ind, api.GetCandByIndCycle(*cycle))
 		if err != nil {
 			return err
 		}
-		log.Printf("GetCandByIndustry: %s", mustFormatString(info))
+		log.Printf("GetCandByInd: %s", mustFormatString(info))
+		return nil
+	})
+
+	app.Register("GetCandSector", func(context.Context) error {
+		requireStringFlag(cid, "cid")
+		info, err := client.GetCandSector(*cid, api.GetCandSectorCycle(*cycle))
+		if err != nil {
+			return err
+		}
+		log.Printf("GetCandSector: %s", mustFormatString(info))
 		return nil
 	})
 

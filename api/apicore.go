@@ -185,7 +185,7 @@ func (c *core) GetCandSummary(cid string, optss ...GetCandSummaryOption) (*GetCa
 	return res, nil
 }
 
-type Recipient struct {
+type SimpleCandidate struct {
 	CandName string `json:"cand_name"`
 	Cid      string `json:"cid"`
 	Cycle    string `json:"cycle"`
@@ -202,7 +202,7 @@ type Contributor struct {
 }
 
 type GetCandContribInfo struct {
-	Recipient    Recipient
+	Recipient    SimpleCandidate
 	Contributors []Contributor
 }
 
@@ -213,7 +213,7 @@ func (c *core) GetCandContrib(cid string, optss ...GetCandContribOption) (*GetCa
 	type resultT struct {
 		Response struct {
 			Contributors struct {
-				Recipient   Recipient `json:"@attributes"`
+				Recipient   SimpleCandidate `json:"@attributes"`
 				Contributor []struct {
 					Contributor Contributor `json:"@attributes"`
 				} `json:"contributor"`
@@ -249,7 +249,7 @@ type Industry struct {
 }
 
 type GetCandIndustryInfo struct {
-	Recipient  Recipient
+	Recipient  SimpleCandidate
 	Industries []Industry
 }
 
@@ -260,7 +260,7 @@ func (c *core) GetCandIndustry(cid string, optss ...GetCandIndustryOption) (*Get
 	type resultT struct {
 		Response struct {
 			Industries struct {
-				Recipient  Recipient `json:"@attributes"`
+				Recipient  SimpleCandidate `json:"@attributes"`
 				Industries []struct {
 					Industry Industry `json:"@attributes"`
 				} `json:"industry"`
@@ -287,11 +287,11 @@ func (c *core) GetCandIndustry(cid string, optss ...GetCandIndustryOption) (*Get
 	return res, nil
 }
 
-type GetCandByIndustryInfo struct {
-	CandByIndustryInfo
+type GetCandByIndInfo struct {
+	CandByIndInfo
 }
 
-type CandByIndustryInfo struct {
+type CandByIndInfo struct {
 	CandName    string `json:"cand_name"`
 	Cid         string `json:"cid"`
 	Cycle       string `json:"cycle"`
@@ -308,14 +308,14 @@ type CandByIndustryInfo struct {
 	LastUpdated string `json:"last_updated"`
 }
 
-//go:generate genopts --function=GetCandByIndustry "cycle:int"
-func (c *core) GetCandByIndustry(cid, ind string, optss ...GetCandByIndustryOption) (*GetCandByIndustryInfo, error) {
-	opts := MakeGetCandByIndustryOptions(optss...)
+//go:generate genopts --function=GetCandByInd "cycle:int"
+func (c *core) GetCandByInd(cid, ind string, optss ...GetCandByIndOption) (*GetCandByIndInfo, error) {
+	opts := MakeGetCandByIndOptions(optss...)
 
 	type resultT struct {
 		Response struct {
 			CandIndus struct {
-				Attributes CandByIndustryInfo `json:"@attributes"`
+				Attributes CandByIndInfo `json:"@attributes"`
 			} `json:"candIndus"`
 		} `json:"response"`
 	}
@@ -331,8 +331,55 @@ func (c *core) GetCandByIndustry(cid, ind string, optss ...GetCandByIndustryOpti
 		return nil, err
 	}
 
-	res := &GetCandByIndustryInfo{
-		CandByIndustryInfo: result.Response.CandIndus.Attributes,
+	res := &GetCandByIndInfo{
+		CandByIndInfo: result.Response.CandIndus.Attributes,
+	}
+	return res, nil
+}
+
+type Sector struct {
+	SectorName string `json:"sector_name"`
+	Sectorid   string `json:"sectorid"`
+	Indivs     string `json:"indivs"`
+	Pacs       string `json:"pacs"`
+	Total      string `json:"total"`
+}
+
+type GetCandSectorInfo struct {
+	Candidate SimpleCandidate
+	Sectors   []Sector
+}
+
+//go:generate genopts --function=GetCandSector "cycle:int"
+func (c *core) GetCandSector(cid string, optss ...GetCandSectorOption) (*GetCandSectorInfo, error) {
+	opts := MakeGetCandSectorOptions(optss...)
+
+	type resultT struct {
+		Response struct {
+			Sectors struct {
+				Attributes SimpleCandidate `json:"@attributes"`
+				Sectors    []struct {
+					Attributes Sector `json:"@attributes"`
+				} `json:"sector"`
+			} `json:"sectors"`
+		} `json:"response"`
+	}
+	var result resultT
+
+	params := request.MakeParamsBuilder().
+		Add("cid", cid).
+		AddIfNotDefault("cycle", opts.Cycle()).
+		Build()
+	err := c.get("candSector", &result, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	res := &GetCandSectorInfo{
+		Candidate: result.Response.Sectors.Attributes,
+	}
+	for _, c := range result.Response.Sectors.Sectors {
+		res.Sectors = append(res.Sectors, c.Attributes)
 	}
 	return res, nil
 }

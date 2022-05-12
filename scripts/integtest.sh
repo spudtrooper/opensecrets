@@ -6,6 +6,7 @@ set -e
 
 scripts=$(dirname $0)
 
+# TODO: Add these as unit tests, also.
 $scripts/run.sh
 $scripts/run.sh GetLegislators --id LA
 $scripts/run.sh GetLegislators --id N00026823
@@ -17,7 +18,9 @@ $scripts/run.sh GetCandContrib --cid N00026823
 $scripts/run.sh GetCandContrib --cid N00026823 --cycle 2016
 $scripts/run.sh GetCandIndustry --cid N00026823
 $scripts/run.sh GetCandIndustry --cid N00026823 --cycle 2016
-$scripts/run.sh GetCandByIndustry --cid N00026823 --ind M02
-$scripts/run.sh GetCandByIndustry --cid N00026823 --ind M02 --cycle 2016
+$scripts/run.sh GetCandByInd --cid N00026823 --ind M02
+$scripts/run.sh GetCandByInd --cid N00026823 --ind M02 --cycle 2016
+$scripts/run.sh GetCandSector --cid N00026823
+$scripts/run.sh GetCandSector --cid N00026823 --cycle 2016
 
 echo "OK"
