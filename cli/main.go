@@ -30,11 +30,10 @@ func Main(ctx context.Context) error {
 	app := minimalcli.Make()
 	app.Init()
 
-	coreClient, err := api.NewClientFromFlags()
+	client, err := api.NewClientFromFlags()
 	if err != nil {
 		return err
 	}
-	client := coreClient //api.MakeExtended(coreClient)
 
 	app.Register("GetLegislators", func(context.Context) error {
 		requireStringFlag(id, "id")
