@@ -200,3 +200,42 @@ func TestGetCandIndustry(t *testing.T) {
 		})
 	}
 }
+
+func TestGetCandByInd(t *testing.T) {
+	tests := []struct {
+		name  string
+		cid   string
+		ind   string
+		cycle int
+	}{
+		{
+			name: "no cycle",
+			cid:  "N00007360",
+			ind:  "M02",
+		},
+		{
+			name:  "with cycle",
+			cid:   "N00007360",
+			ind:   "M02",
+			cycle: 2016,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cid, ind, cycle := tt.cid, tt.ind, tt.cycle
+			client := makeClient(t)
+			info, err := client.GetCandByInd(cid, ind, GetCandByIndCycle(cycle))
+			if err != nil {
+				t.Fatalf("GetCandByInd(%q,%d): %v", cid, cycle, err)
+			}
+			if want, got := "Pelosi, Nancy", info.CandName; want != got {
+				t.Errorf("GetCandByInd(%q,%d).CandName: got %q, wanted %q", cid, cycle, got, want)
+			}
+			if cycle != 0 {
+				if want, got := fmt.Sprintf("%d", cycle), info.Cycle; want != got {
+					t.Errorf("GetCandByInd(%q,%d).Cycle: got %q, wanted %q", cid, cycle, got, want)
+				}
+			}
+		})
+	}
+}
