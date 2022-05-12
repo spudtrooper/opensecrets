@@ -1,8 +1,6 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-//go:generate genopts --prefix=GetCandSummary --outfile=getcandsummaryoptions.go "cycle:int"
-
 type GetCandSummaryOption func(*getCandSummaryOptionImpl)
 
 type GetCandSummaryOptions interface {

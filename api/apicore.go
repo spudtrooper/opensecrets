@@ -157,7 +157,7 @@ type CandSummaryInfo struct {
 	LastUpdated  string `json:"last_updated"`
 }
 
-//go:generate genopts --prefix=GetCandSummary "cycle:int"
+//go:generate genopts --function=GetCandSummary "cycle:int"
 func (c *core) GetCandSummary(cid string, optss ...GetCandSummaryOption) (*GetCandSummaryInfo, error) {
 	opts := MakeGetCandSummaryOptions(optss...)
 
@@ -213,9 +213,9 @@ func (c *core) GetCandContrib(cid string, optss ...GetCandContribOption) (*GetCa
 	type resultT struct {
 		Response struct {
 			Contributors struct {
-				Recipient   SimpleCandidate `json:"@attributes"`
+				Attributes  SimpleCandidate `json:"@attributes"`
 				Contributor []struct {
-					Contributor Contributor `json:"@attributes"`
+					Attributes Contributor `json:"@attributes"`
 				} `json:"contributor"`
 			} `json:"contributors"`
 		} `json:"response"`
@@ -232,10 +232,10 @@ func (c *core) GetCandContrib(cid string, optss ...GetCandContribOption) (*GetCa
 	}
 
 	res := &GetCandContribInfo{
-		Recipient: result.Response.Contributors.Recipient,
+		Recipient: result.Response.Contributors.Attributes,
 	}
 	for _, c := range result.Response.Contributors.Contributor {
-		res.Contributors = append(res.Contributors, c.Contributor)
+		res.Contributors = append(res.Contributors, c.Attributes)
 	}
 	return res, nil
 }

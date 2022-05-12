@@ -4,20 +4,7 @@ package api
 type GetCongCmteIndusOption func(*getCongCmteIndusOptionImpl)
 
 type GetCongCmteIndusOptions interface {
-	Cmte() string
 	Congno() int
-	Indus() string
-}
-
-func GetCongCmteIndusCmte(cmte string) GetCongCmteIndusOption {
-	return func(opts *getCongCmteIndusOptionImpl) {
-		opts.cmte = cmte
-	}
-}
-func GetCongCmteIndusCmteFlag(cmte *string) GetCongCmteIndusOption {
-	return func(opts *getCongCmteIndusOptionImpl) {
-		opts.cmte = *cmte
-	}
 }
 
 func GetCongCmteIndusCongno(congno int) GetCongCmteIndusOption {
@@ -31,26 +18,11 @@ func GetCongCmteIndusCongnoFlag(congno *int) GetCongCmteIndusOption {
 	}
 }
 
-func GetCongCmteIndusIndus(indus string) GetCongCmteIndusOption {
-	return func(opts *getCongCmteIndusOptionImpl) {
-		opts.indus = indus
-	}
-}
-func GetCongCmteIndusIndusFlag(indus *string) GetCongCmteIndusOption {
-	return func(opts *getCongCmteIndusOptionImpl) {
-		opts.indus = *indus
-	}
-}
-
 type getCongCmteIndusOptionImpl struct {
-	cmte   string
 	congno int
-	indus  string
 }
 
-func (g *getCongCmteIndusOptionImpl) Cmte() string  { return g.cmte }
-func (g *getCongCmteIndusOptionImpl) Congno() int   { return g.congno }
-func (g *getCongCmteIndusOptionImpl) Indus() string { return g.indus }
+func (g *getCongCmteIndusOptionImpl) Congno() int { return g.congno }
 
 func makeGetCongCmteIndusOptionImpl(opts ...GetCongCmteIndusOption) *getCongCmteIndusOptionImpl {
 	res := &getCongCmteIndusOptionImpl{}
