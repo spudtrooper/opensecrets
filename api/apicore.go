@@ -210,9 +210,9 @@ func (c *core) GetCandContrib(cid string, optss ...CandContribOption) (*GetCandC
 	type resultT struct {
 		Response struct {
 			Contributors struct {
-				Attributes  Recipient `json:"@attributes"`
+				Recipient   Recipient `json:"@attributes"`
 				Contributor []struct {
-					Attributes Contributor `json:"@attributes"`
+					Contributor Contributor `json:"@attributes"`
 				} `json:"contributor"`
 			} `json:"contributors"`
 		} `json:"response"`
@@ -229,10 +229,56 @@ func (c *core) GetCandContrib(cid string, optss ...CandContribOption) (*GetCandC
 	}
 
 	res := &GetCandContribInfo{
-		Recipient: result.Response.Contributors.Attributes,
+		Recipient: result.Response.Contributors.Recipient,
 	}
 	for _, c := range result.Response.Contributors.Contributor {
-		res.Contributors = append(res.Contributors, c.Attributes)
+		res.Contributors = append(res.Contributors, c.Contributor)
+	}
+	return res, nil
+}
+
+type Industry struct {
+	IndustryCode string `json:"industry_code"`
+	IndustryName string `json:"industry_name"`
+	Indivs       string `json:"indivs"`
+	Pacs         string `json:"pacs"`
+	Total        string `json:"total"`
+}
+
+type GetCandIndustryInfo struct {
+	Recipient  Recipient
+	Industries []Industry
+}
+
+func (c *core) GetCandIndustry(cid string, optss ...CandIndustryOption) (*GetCandIndustryInfo, error) {
+	opts := MakeCandIndustryOptions(optss...)
+
+	type resultT struct {
+		Response struct {
+			Industries struct {
+				Recipient  Recipient `json:"@attributes"`
+				Industries []struct {
+					Industry Industry `json:"@attributes"`
+				} `json:"industry"`
+			} `json:"industries"`
+		} `json:"response"`
+	}
+	var result resultT
+
+	params := request.Params{
+		request.MakeParam("cid", cid),
+	}
+	params = params.AddIfNotDefault("cycle", opts.Cycle())
+	err := c.get("candIndustry", &result, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	res := &GetCandIndustryInfo{
+		Recipient: result.Response.Industries.Recipient,
+	}
+	for _, c := range result.Response.Industries.Industries {
+		res.Industries = append(res.Industries, c.Industry)
 	}
 	return res, nil
 }

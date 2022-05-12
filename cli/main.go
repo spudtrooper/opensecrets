@@ -71,6 +71,16 @@ func Main(ctx context.Context) error {
 		return nil
 	})
 
+	app.Register("GetCandIndustry", func(context.Context) error {
+		requireStringFlag(cid, "cid")
+		info, err := client.GetCandIndustry(*cid, api.CandIndustryCycle(*cycle))
+		if err != nil {
+			return err
+		}
+		log.Printf("GetCandIndustry: %s", mustFormatString(info))
+		return nil
+	})
+
 	if err := app.Run(ctx); err != nil {
 		return err
 	}
