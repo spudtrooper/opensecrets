@@ -23,6 +23,7 @@ var (
 	congno = flags.Int("congno", "global congno")
 	ind    = flags.String("ind", "global ind")
 	org    = flags.String("org", "candidate org")
+	orgID  = flags.String("org_id", "candidate org ID")
 )
 
 func Main(ctx context.Context) error {
@@ -124,6 +125,16 @@ func Main(ctx context.Context) error {
 			return err
 		}
 		log.Printf("GetOrgs: %s", mustFormatString(info))
+		return nil
+	})
+
+	app.Register("GetOrgSummary", func(context.Context) error {
+		requireStringFlag(orgID, "org_id")
+		info, err := client.GetOrgSummary(*orgID)
+		if err != nil {
+			return err
+		}
+		log.Printf("GetOrgSummary: %s", mustFormatString(info))
 		return nil
 	})
 

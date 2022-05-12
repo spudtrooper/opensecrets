@@ -25,5 +25,6 @@ $scripts/run.sh GetCandSector --cid N00026823 --cycle 2016
 $scripts/run.sh GetCongCmteIndus -cmte HARM -ind F10
 $scripts/run.sh GetCongCmteIndus -cmte HARM -ind F10  --congno 11
 $scripts/run.sh GetOrgs --org Goldman
+$scripts/run.sh GetOrgSummary --org_id D000000125
 
 echo "OK"
