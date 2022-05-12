@@ -19,6 +19,7 @@ var (
 	cid   = flags.String("cid", "candidate ID")
 	year  = flags.Int("year", "global year")
 	cycle = flags.Int("cycle", "global cycle")
+	ind   = flags.String("ind", "global ind")
 )
 
 func Main(ctx context.Context) error {
@@ -43,7 +44,7 @@ func Main(ctx context.Context) error {
 
 	app.Register("GetMemPFDprofile", func(context.Context) error {
 		requireStringFlag(cid, "cid")
-		info, err := client.GetMemPFDprofile(*cid, api.MemPFDprofileYear(*year))
+		info, err := client.GetMemPFDprofile(*cid, api.GetMemPFDprofileYear(*year))
 		if err != nil {
 			return err
 		}
@@ -53,7 +54,7 @@ func Main(ctx context.Context) error {
 
 	app.Register("GetCandSummary", func(context.Context) error {
 		requireStringFlag(cid, "cid")
-		info, err := client.GetCandSummary(*cid, api.CandSummaryCycle(*cycle))
+		info, err := client.GetCandSummary(*cid, api.GetCandSummaryCycle(*cycle))
 		if err != nil {
 			return err
 		}
@@ -63,7 +64,7 @@ func Main(ctx context.Context) error {
 
 	app.Register("GetCandContrib", func(context.Context) error {
 		requireStringFlag(cid, "cid")
-		info, err := client.GetCandContrib(*cid, api.CandContribCycle(*cycle))
+		info, err := client.GetCandContrib(*cid, api.GetCandContribCycle(*cycle))
 		if err != nil {
 			return err
 		}
@@ -73,11 +74,22 @@ func Main(ctx context.Context) error {
 
 	app.Register("GetCandIndustry", func(context.Context) error {
 		requireStringFlag(cid, "cid")
-		info, err := client.GetCandIndustry(*cid, api.CandIndustryCycle(*cycle))
+		info, err := client.GetCandIndustry(*cid, api.GetCandIndustryCycle(*cycle))
 		if err != nil {
 			return err
 		}
 		log.Printf("GetCandIndustry: %s", mustFormatString(info))
+		return nil
+	})
+
+	app.Register("GetCandByIndustry", func(context.Context) error {
+		requireStringFlag(cid, "cid")
+		requireStringFlag(ind, "ind")
+		info, err := client.GetCandByIndustry(*cid, *ind, api.GetCandByIndustryCycle(*cycle))
+		if err != nil {
+			return err
+		}
+		log.Printf("GetCandByIndustry: %s", mustFormatString(info))
 		return nil
 	})
 

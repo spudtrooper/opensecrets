@@ -17,5 +17,7 @@ $scripts/run.sh GetCandContrib --cid N00026823
 $scripts/run.sh GetCandContrib --cid N00026823 --cycle 2016
 $scripts/run.sh GetCandIndustry --cid N00026823
 $scripts/run.sh GetCandIndustry --cid N00026823 --cycle 2016
+$scripts/run.sh GetCandByIndustry --cid N00026823 --ind M02
+$scripts/run.sh GetCandByIndustry --cid N00026823 --ind M02 --cycle 2016
 
 echo "OK"

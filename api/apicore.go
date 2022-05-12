@@ -107,8 +107,9 @@ type MemPFDprofileInfo struct {
 	UpdateTimestamp    string `json:"update_timestamp"`
 }
 
-func (c *core) GetMemPFDprofile(cid string, optss ...MemPFDprofileOption) (*GetMemPFDprofileInfo, error) {
-	opts := MakeMemPFDprofileOptions(optss...)
+//go:generate genopts --function=GetMemPFDprofile "year:int"
+func (c *core) GetMemPFDprofile(cid string, optss ...GetMemPFDprofileOption) (*GetMemPFDprofileInfo, error) {
+	opts := MakeGetMemPFDprofileOptions(optss...)
 
 	type resultT struct {
 		Response struct {
@@ -119,10 +120,10 @@ func (c *core) GetMemPFDprofile(cid string, optss ...MemPFDprofileOption) (*GetM
 	}
 	var result resultT
 
-	params := request.Params{
-		request.MakeParam("cid", cid),
-	}
-	params = params.AddIfNotDefault("year", opts.Year())
+	params := request.MakeParamsBuilder().
+		Add("cid", cid).
+		AddIfNotDefault("year", opts.Year()).
+		Build()
 	err := c.get("memPFDprofile", &result, params...)
 	if err != nil {
 		return nil, err
@@ -156,8 +157,9 @@ type CandSummaryInfo struct {
 	LastUpdated  string `json:"last_updated"`
 }
 
-func (c *core) GetCandSummary(cid string, optss ...CandSummaryOption) (*GetCandSummaryInfo, error) {
-	opts := MakeCandSummaryOptions(optss...)
+//go:generate genopts --prefix=GetCandSummary "cycle:int"
+func (c *core) GetCandSummary(cid string, optss ...GetCandSummaryOption) (*GetCandSummaryInfo, error) {
+	opts := MakeGetCandSummaryOptions(optss...)
 
 	type resultT struct {
 		Response struct {
@@ -168,10 +170,10 @@ func (c *core) GetCandSummary(cid string, optss ...CandSummaryOption) (*GetCandS
 	}
 	var result resultT
 
-	params := request.Params{
-		request.MakeParam("cid", cid),
-	}
-	params = params.AddIfNotDefault("cycle", opts.Cycle())
+	params := request.MakeParamsBuilder().
+		Add("cid", cid).
+		AddIfNotDefault("cycle", opts.Cycle()).
+		Build()
 	err := c.get("candSummary", &result, params...)
 	if err != nil {
 		return nil, err
@@ -204,8 +206,9 @@ type GetCandContribInfo struct {
 	Contributors []Contributor
 }
 
-func (c *core) GetCandContrib(cid string, optss ...CandContribOption) (*GetCandContribInfo, error) {
-	opts := MakeCandContribOptions(optss...)
+//go:generate genopts --function=GetCandContrib "cycle:int"
+func (c *core) GetCandContrib(cid string, optss ...GetCandContribOption) (*GetCandContribInfo, error) {
+	opts := MakeGetCandContribOptions(optss...)
 
 	type resultT struct {
 		Response struct {
@@ -219,10 +222,10 @@ func (c *core) GetCandContrib(cid string, optss ...CandContribOption) (*GetCandC
 	}
 	var result resultT
 
-	params := request.Params{
-		request.MakeParam("cid", cid),
-	}
-	params = params.AddIfNotDefault("cycle", opts.Cycle())
+	params := request.MakeParamsBuilder().
+		Add("cid", cid).
+		AddIfNotDefault("cycle", opts.Cycle()).
+		Build()
 	err := c.get("candContrib", &result, params...)
 	if err != nil {
 		return nil, err
@@ -250,8 +253,9 @@ type GetCandIndustryInfo struct {
 	Industries []Industry
 }
 
-func (c *core) GetCandIndustry(cid string, optss ...CandIndustryOption) (*GetCandIndustryInfo, error) {
-	opts := MakeCandIndustryOptions(optss...)
+//go:generate genopts --function=GetCandIndustry "cycle:int"
+func (c *core) GetCandIndustry(cid string, optss ...GetCandIndustryOption) (*GetCandIndustryInfo, error) {
+	opts := MakeGetCandIndustryOptions(optss...)
 
 	type resultT struct {
 		Response struct {
@@ -265,10 +269,10 @@ func (c *core) GetCandIndustry(cid string, optss ...CandIndustryOption) (*GetCan
 	}
 	var result resultT
 
-	params := request.Params{
-		request.MakeParam("cid", cid),
-	}
-	params = params.AddIfNotDefault("cycle", opts.Cycle())
+	params := request.MakeParamsBuilder().
+		Add("cid", cid).
+		AddIfNotDefault("cycle", opts.Cycle()).
+		Build()
 	err := c.get("candIndustry", &result, params...)
 	if err != nil {
 		return nil, err
@@ -279,6 +283,56 @@ func (c *core) GetCandIndustry(cid string, optss ...CandIndustryOption) (*GetCan
 	}
 	for _, c := range result.Response.Industries.Industries {
 		res.Industries = append(res.Industries, c.Industry)
+	}
+	return res, nil
+}
+
+type GetCandByIndustryInfo struct {
+	CandByIndustryInfo
+}
+
+type CandByIndustryInfo struct {
+	CandName    string `json:"cand_name"`
+	Cid         string `json:"cid"`
+	Cycle       string `json:"cycle"`
+	Industry    string `json:"industry"`
+	Chamber     string `json:"chamber"`
+	Party       string `json:"party"`
+	State       string `json:"state"`
+	Total       string `json:"total"`
+	Indivs      string `json:"indivs"`
+	Pacs        string `json:"pacs"`
+	Rank        string `json:"rank"`
+	Origin      string `json:"origin"`
+	Source      string `json:"source"`
+	LastUpdated string `json:"last_updated"`
+}
+
+//go:generate genopts --function=GetCandByIndustry "cycle:int"
+func (c *core) GetCandByIndustry(cid, ind string, optss ...GetCandByIndustryOption) (*GetCandByIndustryInfo, error) {
+	opts := MakeGetCandByIndustryOptions(optss...)
+
+	type resultT struct {
+		Response struct {
+			CandIndus struct {
+				Attributes CandByIndustryInfo `json:"@attributes"`
+			} `json:"candIndus"`
+		} `json:"response"`
+	}
+	var result resultT
+
+	params := request.MakeParamsBuilder().
+		Add("cid", cid).
+		Add("ind", ind).
+		AddIfNotDefault("cycle", opts.Cycle()).
+		Build()
+	err := c.get("candIndByInd", &result, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	res := &GetCandByIndustryInfo{
+		CandByIndustryInfo: result.Response.CandIndus.Attributes,
 	}
 	return res, nil
 }
