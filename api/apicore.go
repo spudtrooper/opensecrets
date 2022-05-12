@@ -260,9 +260,9 @@ func (c *core) GetCandIndustry(cid string, optss ...GetCandIndustryOption) (*Get
 	type resultT struct {
 		Response struct {
 			Industries struct {
-				Recipient  SimpleCandidate `json:"@attributes"`
-				Industries []struct {
-					Industry Industry `json:"@attributes"`
+				Attributes SimpleCandidate `json:"@attributes"`
+				Industry   []struct {
+					Attributes Industry `json:"@attributes"`
 				} `json:"industry"`
 			} `json:"industries"`
 		} `json:"response"`
@@ -279,10 +279,10 @@ func (c *core) GetCandIndustry(cid string, optss ...GetCandIndustryOption) (*Get
 	}
 
 	res := &GetCandIndustryInfo{
-		Recipient: result.Response.Industries.Recipient,
+		Recipient: result.Response.Industries.Attributes,
 	}
-	for _, c := range result.Response.Industries.Industries {
-		res.Industries = append(res.Industries, c.Industry)
+	for _, c := range result.Response.Industries.Industry {
+		res.Industries = append(res.Industries, c.Attributes)
 	}
 	return res, nil
 }
@@ -380,6 +380,65 @@ func (c *core) GetCandSector(cid string, optss ...GetCandSectorOption) (*GetCand
 	}
 	for _, c := range result.Response.Sectors.Sectors {
 		res.Sectors = append(res.Sectors, c.Attributes)
+	}
+	return res, nil
+}
+
+type Committee struct {
+	CommitteeName string `json:"committee_name"`
+	Industry      string `json:"industry"`
+	Congno        string `json:"congno"`
+	Origin        string `json:"origin"`
+	Source        string `json:"source"`
+	LastUpdated   string `json:"last_updated"`
+}
+
+type CommitteeMember struct {
+	MemberName string `json:"member_name"`
+	Cid        string `json:"cid"`
+	Party      string `json:"party"`
+	State      string `json:"state"`
+	Total      string `json:"total"`
+	Indivs     string `json:"indivs"`
+	Pacs       string `json:"pacs"`
+}
+
+type GetCongCmteIndusInfo struct {
+	Committee
+	CommitteeMembers []CommitteeMember
+}
+
+//go:generate genopts --function=GetCongCmteIndus "congno:int"
+func (c *core) GetCongCmteIndus(cmte, indus string, optss ...GetCongCmteIndusOption) (*GetCongCmteIndusInfo, error) {
+	opts := MakeGetCongCmteIndusOptions(optss...)
+
+	type resultT struct {
+		Response struct {
+			Committee struct {
+				Attributes Committee `json:"@attributes"`
+				Member     []struct {
+					Attributes CommitteeMember `json:"@attributes"`
+				} `json:"member"`
+			} `json:"committee"`
+		} `json:"response"`
+	}
+	var result resultT
+
+	params := request.MakeParamsBuilder().
+		Add("cmte", cmte).
+		Add("indus", indus).
+		AddIfNotDefault("congno", opts.Congno()).
+		Build()
+	err := c.get("congCmteIndus", &result, params...)
+	if err != nil {
+		return nil, err
+	}
+
+	res := &GetCongCmteIndusInfo{
+		Committee: result.Response.Committee.Attributes,
+	}
+	for _, c := range result.Response.Committee.Member {
+		res.CommitteeMembers = append(res.CommitteeMembers, c.Attributes)
 	}
 	return res, nil
 }

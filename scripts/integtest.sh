@@ -22,5 +22,7 @@ $scripts/run.sh GetCandByInd --cid N00026823 --ind M02
 $scripts/run.sh GetCandByInd --cid N00026823 --ind M02 --cycle 2016
 $scripts/run.sh GetCandSector --cid N00026823
 $scripts/run.sh GetCandSector --cid N00026823 --cycle 2016
+$scripts/run.sh GetCongCmteIndus -cmte HARM -ind F10
+$scripts/run.sh GetCongCmteIndus -cmte HARM -ind F10  --congno 11
 
 echo "OK"

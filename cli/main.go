@@ -15,11 +15,13 @@ import (
 )
 
 var (
-	id    = flags.String("id", "global ID")
-	cid   = flags.String("cid", "candidate ID")
-	year  = flags.Int("year", "global year")
-	cycle = flags.Int("cycle", "global cycle")
-	ind   = flags.String("ind", "global ind")
+	id     = flags.String("id", "global ID")
+	cid    = flags.String("cid", "candidate ID")
+	cmte   = flags.String("cmte", "candidate cmte")
+	year   = flags.Int("year", "global year")
+	cycle  = flags.Int("cycle", "global cycle")
+	congno = flags.Int("congno", "global congno")
+	ind    = flags.String("ind", "global ind")
 )
 
 func Main(ctx context.Context) error {
@@ -100,6 +102,17 @@ func Main(ctx context.Context) error {
 			return err
 		}
 		log.Printf("GetCandSector: %s", mustFormatString(info))
+		return nil
+	})
+
+	app.Register("GetCongCmteIndus", func(context.Context) error {
+		requireStringFlag(cmte, "cmte")
+		requireStringFlag(ind, "ind")
+		info, err := client.GetCongCmteIndus(*cmte, *ind, api.GetCongCmteIndusCongno(*congno))
+		if err != nil {
+			return err
+		}
+		log.Printf("GetCongCmteIndus: %s", mustFormatString(info))
 		return nil
 	})
 
