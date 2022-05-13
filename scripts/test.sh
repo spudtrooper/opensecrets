@@ -6,5 +6,5 @@ set -e
 
 scripts=$(dirname $0)
 
-go test ./...
+$scripts/unittest.sh
 $scripts/integtest.sh

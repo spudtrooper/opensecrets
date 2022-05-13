@@ -7,18 +7,6 @@ import (
 	"github.com/spudtrooper/goutil/io"
 )
 
-func makeClient(t *testing.T) *core {
-	f := "../.user_creds.json"
-	if !io.FileExists(f) {
-		t.Fatalf("add your credentials to %s", f)
-	}
-	client, err := NewClientFromFile(f)
-	if err != nil {
-		t.Fatalf("NewClientFromFlags: %v", err)
-	}
-	return client
-}
-
 func TestGetLegislators(t *testing.T) {
 	tests := []struct {
 		name string
@@ -51,6 +39,31 @@ func TestGetLegislators(t *testing.T) {
 			}
 			if !found {
 				t.Fatalf("GetLegislators(%q): did not find expecting firstlast %s", id, firstlast)
+			}
+		})
+	}
+}
+
+func TestGetLegislator(t *testing.T) {
+	tests := []struct {
+		name string
+		cid  string
+	}{
+		{
+			name: "person",
+			cid:  "N00007360",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cid := tt.cid
+			client := makeClient(t)
+			li, err := client.GetLegislator(cid)
+			if err != nil {
+				t.Fatalf("GetLegislator(%q): %v", cid, err)
+			}
+			if want, got := "Nancy Pelosi", li.Firstlast; want != got {
+				t.Errorf("GetLegislators(%q,).Firstlast: got %q, wanted %q", cid, got, want)
 			}
 		})
 	}
@@ -274,4 +287,16 @@ func TestGetCandSector(t *testing.T) {
 			}
 		})
 	}
+}
+
+func makeClient(t *testing.T) *core {
+	f := "../.user_creds.json"
+	if !io.FileExists(f) {
+		t.Fatalf("add your credentials to %s", f)
+	}
+	client, err := NewClientFromFile(f)
+	if err != nil {
+		t.Fatalf("NewClientFromFlags: %v", err)
+	}
+	return client
 }

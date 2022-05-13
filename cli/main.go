@@ -35,6 +35,16 @@ func Main(ctx context.Context) error {
 		return err
 	}
 
+	app.Register("GetLegislator", func(context.Context) error {
+		requireStringFlag(cid, "cid")
+		info, err := client.GetLegislator(*cid)
+		if err != nil {
+			return err
+		}
+		log.Printf("GetLegislator: %s", mustFormatString(info))
+		return nil
+	})
+
 	app.Register("GetLegislators", func(context.Context) error {
 		requireStringFlag(id, "id")
 		info, err := client.GetLegislators(*id)

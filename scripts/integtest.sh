@@ -7,6 +7,7 @@ set -e
 scripts=$(dirname $0)
 
 $scripts/run.sh
+$scripts/run.sh GetLegislator --cid N00007360
 $scripts/run.sh GetLegislators --id CA
 $scripts/run.sh GetLegislators --id N00007360
 $scripts/run.sh GetMemPFDprofile --cid N00007360

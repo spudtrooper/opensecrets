@@ -1,6 +1,9 @@
+// Don't depend on the json attributes, these are only for grabbing data from the wire.
 package api
 
 import (
+	"strings"
+
 	"github.com/spudtrooper/goutil/request"
 )
 
@@ -9,7 +12,7 @@ type GetLegislatorsInfo struct {
 }
 
 type LegislatorInfo struct {
-	Cid            string `json:"cid"`
+	CID            string `json:"cid"`
 	Firstlast      string `json:"firstlast"`
 	Lastname       string `json:"lastname"`
 	Party          string `json:"party"`
@@ -35,9 +38,16 @@ type LegislatorInfo struct {
 func (c *core) GetLegislators(id string) (*GetLegislatorsInfo, error) {
 	if len(id) == 2 {
 		// this is a state
-		return c.getLegislatorsForState(id)
+		return c.getLegislatorsForState(strings.ToUpper(id))
 	}
-	return c.getLegislatorsForCID(id)
+	leg, err := c.getLegislatorForCID(id)
+	if err != nil {
+		return nil, err
+	}
+	res := &GetLegislatorsInfo{
+		LegislatorInfos: []LegislatorInfo{*leg},
+	}
+	return res, nil
 }
 
 func (c *core) getLegislatorsForState(stateID string) (*GetLegislatorsInfo, error) {
@@ -62,7 +72,7 @@ func (c *core) getLegislatorsForState(stateID string) (*GetLegislatorsInfo, erro
 	return &res, nil
 }
 
-func (c *core) getLegislatorsForCID(cid string) (*GetLegislatorsInfo, error) {
+func (c *core) getLegislatorForCID(cid string) (*LegislatorInfo, error) {
 	type resultT struct {
 		Response struct {
 			Legislator struct {
@@ -77,11 +87,20 @@ func (c *core) getLegislatorsForCID(cid string) (*GetLegislatorsInfo, error) {
 		return nil, err
 	}
 
-	res := &GetLegislatorsInfo{
-		LegislatorInfos: []LegislatorInfo{
-			result.Response.Legislator.Attributes,
-		},
+	res := &result.Response.Legislator.Attributes
+	return res, nil
+}
+
+type GetLegislatorInfo struct {
+	LegislatorInfo
+}
+
+func (c *core) GetLegislator(cid string) (*GetLegislatorInfo, error) {
+	leg, err := c.getLegislatorForCID(cid)
+	if err != nil {
+		return nil, err
 	}
+	res := &GetLegislatorInfo{*leg}
 	return res, nil
 }
 
@@ -141,7 +160,7 @@ type GetCandSummaryInfo struct {
 
 type CandSummaryInfo struct {
 	CandName     string `json:"cand_name"`
-	Cid          string `json:"cid"`
+	CID          string `json:"cid"`
 	Cycle        string `json:"cycle"`
 	State        string `json:"state"`
 	Party        string `json:"party"`
@@ -187,7 +206,7 @@ func (c *core) GetCandSummary(cid string, optss ...GetCandSummaryOption) (*GetCa
 
 type SimpleCandidate struct {
 	CandName string `json:"cand_name"`
-	Cid      string `json:"cid"`
+	CID      string `json:"cid"`
 	Cycle    string `json:"cycle"`
 	Origin   string `json:"origin"`
 	Source   string `json:"source"`
@@ -293,7 +312,7 @@ type GetCandByIndInfo struct {
 
 type CandByIndInfo struct {
 	CandName    string `json:"cand_name"`
-	Cid         string `json:"cid"`
+	CID         string `json:"cid"`
 	Cycle       string `json:"cycle"`
 	Industry    string `json:"industry"`
 	Chamber     string `json:"chamber"`
@@ -395,7 +414,7 @@ type Committee struct {
 
 type CommitteeMember struct {
 	MemberName string `json:"member_name"`
-	Cid        string `json:"cid"`
+	CID        string `json:"cid"`
 	Party      string `json:"party"`
 	State      string `json:"state"`
 	Total      string `json:"total"`
