@@ -8,7 +8,7 @@ See [cli/main.go](https://github.com/spudtrooper/opensecrets/blob/main/cli/main.
 
 ## CLI
 
-The binary associated with this mobule is a minimal CLi which serves as an example use case.
+The binary associated with this module is a minimal CLi which serves as an example use case.
 
 To install:
 
