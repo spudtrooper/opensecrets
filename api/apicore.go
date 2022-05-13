@@ -14,7 +14,7 @@ type HasError interface {
 
 type withError struct{ err error }
 
-func (i *withError) Error() error { return i.err }
+func (w *withError) Error() error { return w.err }
 
 type GetLegislatorsInfo struct {
 	withError
