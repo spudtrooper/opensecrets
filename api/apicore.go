@@ -28,7 +28,7 @@ type LegislatorInfo struct {
 	CongressOffice string `json:"congress_office"`
 	BioguideID     string `json:"bioguide_id"`
 	VotesmartID    string `json:"votesmart_id"`
-	Feccandid      string `json:"feccandid"`
+	FeccandID      string `json:"feccandid"`
 	TwitterID      string `json:"twitter_id"`
 	YoutubeURL     string `json:"youtube_url"`
 	FacebookID     string `json:"facebook_id"`
@@ -550,7 +550,7 @@ type GetIndependentExpendInfo struct {
 }
 
 type IndependentExpendInfo struct {
-	Cmteid   string `json:"cmteid"`
+	CmteID   string `json:"cmteid"`
 	Pacshort string `json:"pacshort"`
 	Suppopp  string `json:"suppopp"`
 	Candname string `json:"candname"`
