@@ -4,10 +4,20 @@ package api
 import (
 	"strings"
 
+	"github.com/pkg/errors"
 	"github.com/spudtrooper/goutil/request"
 )
 
+type HasError interface {
+	Error() error
+}
+
+type withError struct{ err error }
+
+func (i *withError) Error() error { return i.err }
+
 type GetLegislatorsInfo struct {
+	withError
 	LegislatorInfos []LegislatorInfo
 }
 
@@ -35,13 +45,33 @@ type LegislatorInfo struct {
 	Birthdate      string `json:"birthdate"`
 }
 
+func is404(err error) bool {
+	return err.Error() == "request status code: 404"
+}
+
 func (c *core) GetLegislators(id string) (*GetLegislatorsInfo, error) {
 	if len(id) == 2 {
 		// this is a state
-		return c.getLegislatorsForState(strings.ToUpper(id))
+		res, err := c.getLegislatorsForState(strings.ToUpper(id))
+		if err != nil {
+			if is404(err) {
+				res := &GetLegislatorsInfo{
+					withError: withError{errors.Errorf("no legislators for state: %s", id)},
+				}
+				return res, nil
+			}
+			return nil, err
+		}
+		return res, nil
 	}
 	leg, err := c.getLegislatorForCID(id)
 	if err != nil {
+		if is404(err) {
+			res := &GetLegislatorsInfo{
+				withError: withError{errors.Errorf("no legislator for CID: %s", id)},
+			}
+			return res, nil
+		}
 		return nil, err
 	}
 	res := &GetLegislatorsInfo{
@@ -92,19 +122,31 @@ func (c *core) getLegislatorForCID(cid string) (*LegislatorInfo, error) {
 }
 
 type GetLegislatorInfo struct {
+	withError
 	LegislatorInfo
 }
+
+func (i *GetLegislatorInfo) Error() error { return i.err }
 
 func (c *core) GetLegislator(cid string) (*GetLegislatorInfo, error) {
 	leg, err := c.getLegislatorForCID(cid)
 	if err != nil {
+		if is404(err) {
+			res := &GetLegislatorInfo{
+				withError: withError{errors.Errorf("no legislator for CID: %s", cid)},
+			}
+			return res, nil
+		}
 		return nil, err
 	}
-	res := &GetLegislatorInfo{*leg}
+	res := &GetLegislatorInfo{
+		LegislatorInfo: *leg,
+	}
 	return res, nil
 }
 
 type GetMemPFDprofileInfo struct {
+	withError
 	MemPFDprofileInfo
 }
 
@@ -145,6 +187,12 @@ func (c *core) GetMemPFDprofile(cid string, optss ...GetMemPFDprofileOption) (*G
 		Build()
 	err := c.get("memPFDprofile", &result, params...)
 	if err != nil {
+		if is404(err) {
+			res := &GetMemPFDprofileInfo{
+				withError: withError{errors.Errorf("no memPFDprofile for CID: %s", cid)},
+			}
+			return res, nil
+		}
 		return nil, err
 	}
 
@@ -155,6 +203,7 @@ func (c *core) GetMemPFDprofile(cid string, optss ...GetMemPFDprofileOption) (*G
 }
 
 type GetCandSummaryInfo struct {
+	withError
 	CandSummaryInfo CandSummaryInfo
 }
 
@@ -195,6 +244,12 @@ func (c *core) GetCandSummary(cid string, optss ...GetCandSummaryOption) (*GetCa
 		Build()
 	err := c.get("candSummary", &result, params...)
 	if err != nil {
+		if is404(err) {
+			res := &GetCandSummaryInfo{
+				withError: withError{errors.Errorf("no candSummary for CID: %s", cid)},
+			}
+			return res, nil
+		}
 		return nil, err
 	}
 
@@ -221,6 +276,7 @@ type Contributor struct {
 }
 
 type GetCandContribInfo struct {
+	withError
 	Recipient    SimpleCandidate
 	Contributors []Contributor
 }
@@ -247,6 +303,12 @@ func (c *core) GetCandContrib(cid string, optss ...GetCandContribOption) (*GetCa
 		Build()
 	err := c.get("candContrib", &result, params...)
 	if err != nil {
+		if is404(err) {
+			res := &GetCandContribInfo{
+				withError: withError{errors.Errorf("no candContrib for CID: %s", cid)},
+			}
+			return res, nil
+		}
 		return nil, err
 	}
 
@@ -268,6 +330,7 @@ type Industry struct {
 }
 
 type GetCandIndustryInfo struct {
+	withError
 	Recipient  SimpleCandidate
 	Industries []Industry
 }
@@ -294,6 +357,12 @@ func (c *core) GetCandIndustry(cid string, optss ...GetCandIndustryOption) (*Get
 		Build()
 	err := c.get("candIndustry", &result, params...)
 	if err != nil {
+		if is404(err) {
+			res := &GetCandIndustryInfo{
+				withError: withError{errors.Errorf("no candIndustry for CID: %s", cid)},
+			}
+			return res, nil
+		}
 		return nil, err
 	}
 
@@ -304,10 +373,6 @@ func (c *core) GetCandIndustry(cid string, optss ...GetCandIndustryOption) (*Get
 		res.Industries = append(res.Industries, c.Attributes)
 	}
 	return res, nil
-}
-
-type GetCandByIndInfo struct {
-	CandByIndInfo
 }
 
 type CandByIndInfo struct {
@@ -325,6 +390,11 @@ type CandByIndInfo struct {
 	Origin      string `json:"origin"`
 	Source      string `json:"source"`
 	LastUpdated string `json:"last_updated"`
+}
+
+type GetCandByIndInfo struct {
+	withError
+	CandByIndInfo
 }
 
 //go:generate genopts --function=GetCandByInd "cycle:int"
@@ -347,6 +417,12 @@ func (c *core) GetCandByInd(cid, ind string, optss ...GetCandByIndOption) (*GetC
 		Build()
 	err := c.get("candIndByInd", &result, params...)
 	if err != nil {
+		if is404(err) {
+			res := &GetCandByIndInfo{
+				withError: withError{errors.Errorf("no candIndByInd for CID: %s", cid)},
+			}
+			return res, nil
+		}
 		return nil, err
 	}
 
@@ -365,6 +441,7 @@ type Sector struct {
 }
 
 type GetCandSectorInfo struct {
+	withError
 	Candidate SimpleCandidate
 	Sectors   []Sector
 }
@@ -391,6 +468,12 @@ func (c *core) GetCandSector(cid string, optss ...GetCandSectorOption) (*GetCand
 		Build()
 	err := c.get("candSector", &result, params...)
 	if err != nil {
+		if is404(err) {
+			res := &GetCandSectorInfo{
+				withError: withError{errors.Errorf("no candSector for CID: %s", cid)},
+			}
+			return res, nil
+		}
 		return nil, err
 	}
 
@@ -423,6 +506,7 @@ type CommitteeMember struct {
 }
 
 type GetCongCmteIndusInfo struct {
+	withError
 	Committee
 	CommitteeMembers []CommitteeMember
 }
@@ -450,6 +534,12 @@ func (c *core) GetCongCmteIndus(cmte, indus string, optss ...GetCongCmteIndusOpt
 		Build()
 	err := c.get("congCmteIndus", &result, params...)
 	if err != nil {
+		if is404(err) {
+			res := &GetCongCmteIndusInfo{
+				withError: withError{errors.Errorf("no congCmteIndus for cmte and indus: %s", cmte, indus)},
+			}
+			return res, nil
+		}
 		return nil, err
 	}
 
@@ -496,10 +586,6 @@ func (c *core) GetOrgs(org string) (*GetOrgInfo, error) {
 	return &res, nil
 }
 
-type GetOrgSummaryInfo struct {
-	Org Organization
-}
-
 type Organization struct {
 	Cycle        string `json:"cycle"`
 	Orgid        string `json:"orgid"`
@@ -521,6 +607,11 @@ type Organization struct {
 	Source       string `json:"source"`
 }
 
+type GetOrgSummaryInfo struct {
+	withError
+	Org Organization
+}
+
 func (c *core) GetOrgSummary(orgID string) (*GetOrgSummaryInfo, error) {
 	type resultT struct {
 		Response struct {
@@ -536,6 +627,12 @@ func (c *core) GetOrgSummary(orgID string) (*GetOrgSummaryInfo, error) {
 		Build()
 	err := c.get("orgSummary", &result, params...)
 	if err != nil {
+		if is404(err) {
+			res := &GetOrgSummaryInfo{
+				withError: withError{errors.Errorf("no orgSummary for orgID: %s", orgID)},
+			}
+			return res, nil
+		}
 		return nil, err
 	}
 
@@ -543,10 +640,6 @@ func (c *core) GetOrgSummary(orgID string) (*GetOrgSummaryInfo, error) {
 		Org: result.Response.Organization.Attributes,
 	}
 	return res, nil
-}
-
-type GetIndependentExpendInfo struct {
-	IndependentExpendInfos []IndependentExpendInfo
 }
 
 type IndependentExpendInfo struct {
@@ -564,6 +657,11 @@ type IndependentExpendInfo struct {
 	Source   string `json:"source"`
 }
 
+type GetIndependentExpendInfo struct {
+	withError
+	IndependentExpendInfos []IndependentExpendInfo
+}
+
 func (c *core) GetIndependentExpend() (*GetIndependentExpendInfo, error) {
 	type resultT struct {
 		Response struct {
@@ -576,6 +674,12 @@ func (c *core) GetIndependentExpend() (*GetIndependentExpendInfo, error) {
 
 	err := c.get("independentExpend", &result)
 	if err != nil {
+		if is404(err) {
+			res := &GetIndependentExpendInfo{
+				withError: withError{errors.Errorf("no independentExpend")},
+			}
+			return res, nil
+		}
 		return nil, err
 	}
 

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"strings"
 
@@ -170,6 +171,12 @@ func requireStringFlag(flag *string, name string) {
 }
 
 func mustFormatString(x interface{}) string {
+	switch v := x.(type) {
+	case api.HasError:
+		if err := v.Error().Error(); err != "" {
+			return fmt.Sprintf("Error{%s}", err)
+		}
+	}
 	b, err := json.Marshal(x)
 	check.Err(err)
 	res, err := prettyPrintJSON(b)
