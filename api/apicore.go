@@ -536,7 +536,7 @@ func (c *core) GetCongCmteIndus(cmte, indus string, optss ...GetCongCmteIndusOpt
 	if err != nil {
 		if is404(err) {
 			res := &GetCongCmteIndusInfo{
-				withError: withError{errors.Errorf("no congCmteIndus for cmte and indus: %s", cmte, indus)},
+				withError: withError{errors.Errorf("no congCmteIndus for cmte and indus: %s %s", cmte, indus)},
 			}
 			return res, nil
 		}
