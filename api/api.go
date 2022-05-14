@@ -12,19 +12,19 @@ import (
 )
 
 var (
-	apiKEY    = flags.String("api_key", "api key")
+	apiKey    = flags.String("api_key", "api key")
 	userCreds = flag.String("user_creds", ".user_creds.json", "file with user credentials")
 )
 
 // Core is a client for opensecrets.org
 type Core struct {
-	apiKEY string
+	apiKey string
 }
 
 // NewClientFromFlags creates a new client from command line flags
 func NewClientFromFlags() (*Core, error) {
-	if *apiKEY != "" {
-		client := NewClient(*apiKEY)
+	if *apiKey != "" {
+		client := NewClient(*apiKey)
 		return client, nil
 	}
 	if *userCreds != "" {
@@ -38,9 +38,9 @@ func NewClientFromFlags() (*Core, error) {
 }
 
 // NewClient creates a new client directly from the API Key
-func NewClient(apiKEY string) *Core {
+func NewClient(apiKey string) *Core {
 	return &Core{
-		apiKEY: apiKEY,
+		apiKey: apiKey,
 	}
 }
 
@@ -51,7 +51,7 @@ func NewClientFromFile(credsFile string) (*Core, error) {
 		return nil, err
 	}
 	return &Core{
-		apiKEY: creds.ApiKey,
+		apiKey: creds.ApiKey,
 	}, nil
 }
 
@@ -76,7 +76,7 @@ func (c *Core) createRoute(method string, params ...request.Param) string {
 	base := fmt.Sprintf("http://%s/api", host)
 	params = append(params, []request.Param{
 		request.MakeParam("method", method),
-		request.MakeParam("apikey", c.apiKEY),
+		request.MakeParam("apikey", c.apiKey),
 		request.MakeParam("output", "json"),
 	}...)
 	url := request.CreateRoute(base, params...)
