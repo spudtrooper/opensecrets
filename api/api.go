@@ -16,13 +16,13 @@ var (
 	userCreds = flag.String("user_creds", ".user_creds.json", "file with user credentials")
 )
 
-// core is an opaque API client for opensecrets.org
-type core struct {
+// Core is a client for opensecrets.org
+type Core struct {
 	apiKEY string
 }
 
 // NewClientFromFlags creates a new client from command line flags
-func NewClientFromFlags() (*core, error) {
+func NewClientFromFlags() (*Core, error) {
 	if *apiKEY != "" {
 		client := NewClient(*apiKEY)
 		return client, nil
@@ -38,19 +38,19 @@ func NewClientFromFlags() (*core, error) {
 }
 
 // NewClient creates a new client directly from the API Key
-func NewClient(apiKEY string) *core {
-	return &core{
+func NewClient(apiKEY string) *Core {
+	return &Core{
 		apiKEY: apiKEY,
 	}
 }
 
 // NewClientFromFile creates a new client from a JSON file like `user_creds-example.json`
-func NewClientFromFile(credsFile string) (*core, error) {
+func NewClientFromFile(credsFile string) (*Core, error) {
 	creds, err := readCreds(credsFile)
 	if err != nil {
 		return nil, err
 	}
-	return &core{
+	return &Core{
 		apiKEY: creds.ApiKey,
 	}, nil
 }
@@ -71,7 +71,7 @@ func readCreds(credsFile string) (*creds, error) {
 	return &creds, nil
 }
 
-func (c *core) createRoute(method string, params ...request.Param) string {
+func (c *Core) createRoute(method string, params ...request.Param) string {
 	const host = "www.opensecrets.org"
 	base := fmt.Sprintf("http://%s/api", host)
 	params = append(params, []request.Param{
@@ -83,7 +83,7 @@ func (c *core) createRoute(method string, params ...request.Param) string {
 	return url
 }
 
-func (c *core) get(method string, payload interface{}, params ...request.Param) error {
+func (c *Core) get(method string, payload interface{}, params ...request.Param) error {
 	uri := c.createRoute(method, params...)
 
 	headers := map[string]string{

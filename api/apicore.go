@@ -49,7 +49,7 @@ func is404(err error) bool {
 	return err.Error() == "request status code: 404"
 }
 
-func (c *core) GetLegislators(id string) (*GetLegislatorsInfo, error) {
+func (c *Core) GetLegislators(id string) (*GetLegislatorsInfo, error) {
 	if len(id) == 2 {
 		// this is a state
 		res, err := c.getLegislatorsForState(strings.ToUpper(id))
@@ -80,7 +80,7 @@ func (c *core) GetLegislators(id string) (*GetLegislatorsInfo, error) {
 	return res, nil
 }
 
-func (c *core) getLegislatorsForState(stateID string) (*GetLegislatorsInfo, error) {
+func (c *Core) getLegislatorsForState(stateID string) (*GetLegislatorsInfo, error) {
 	type resultT struct {
 		Response struct {
 			Legislator []struct {
@@ -102,7 +102,7 @@ func (c *core) getLegislatorsForState(stateID string) (*GetLegislatorsInfo, erro
 	return &res, nil
 }
 
-func (c *core) getLegislatorForCID(cid string) (*LegislatorInfo, error) {
+func (c *Core) getLegislatorForCID(cid string) (*LegislatorInfo, error) {
 	type resultT struct {
 		Response struct {
 			Legislator struct {
@@ -128,7 +128,7 @@ type GetLegislatorInfo struct {
 
 func (i *GetLegislatorInfo) Error() error { return i.err }
 
-func (c *core) GetLegislator(cid string) (*GetLegislatorInfo, error) {
+func (c *Core) GetLegislator(cid string) (*GetLegislatorInfo, error) {
 	leg, err := c.getLegislatorForCID(cid)
 	if err != nil {
 		if is404(err) {
@@ -169,7 +169,7 @@ type MemPFDprofileInfo struct {
 }
 
 //go:generate genopts --function=GetMemPFDprofile "year:int"
-func (c *core) GetMemPFDprofile(cid string, optss ...GetMemPFDprofileOption) (*GetMemPFDprofileInfo, error) {
+func (c *Core) GetMemPFDprofile(cid string, optss ...GetMemPFDprofileOption) (*GetMemPFDprofileInfo, error) {
 	opts := MakeGetMemPFDprofileOptions(optss...)
 
 	type resultT struct {
@@ -226,7 +226,7 @@ type CandSummaryInfo struct {
 }
 
 //go:generate genopts --function=GetCandSummary "cycle:int"
-func (c *core) GetCandSummary(cid string, optss ...GetCandSummaryOption) (*GetCandSummaryInfo, error) {
+func (c *Core) GetCandSummary(cid string, optss ...GetCandSummaryOption) (*GetCandSummaryInfo, error) {
 	opts := MakeGetCandSummaryOptions(optss...)
 
 	type resultT struct {
@@ -282,7 +282,7 @@ type GetCandContribInfo struct {
 }
 
 //go:generate genopts --function=GetCandContrib "cycle:int"
-func (c *core) GetCandContrib(cid string, optss ...GetCandContribOption) (*GetCandContribInfo, error) {
+func (c *Core) GetCandContrib(cid string, optss ...GetCandContribOption) (*GetCandContribInfo, error) {
 	opts := MakeGetCandContribOptions(optss...)
 
 	type resultT struct {
@@ -336,7 +336,7 @@ type GetCandIndustryInfo struct {
 }
 
 //go:generate genopts --function=GetCandIndustry "cycle:int"
-func (c *core) GetCandIndustry(cid string, optss ...GetCandIndustryOption) (*GetCandIndustryInfo, error) {
+func (c *Core) GetCandIndustry(cid string, optss ...GetCandIndustryOption) (*GetCandIndustryInfo, error) {
 	opts := MakeGetCandIndustryOptions(optss...)
 
 	type resultT struct {
@@ -398,7 +398,7 @@ type GetCandByIndInfo struct {
 }
 
 //go:generate genopts --function=GetCandByInd "cycle:int"
-func (c *core) GetCandByInd(cid, ind string, optss ...GetCandByIndOption) (*GetCandByIndInfo, error) {
+func (c *Core) GetCandByInd(cid, ind string, optss ...GetCandByIndOption) (*GetCandByIndInfo, error) {
 	opts := MakeGetCandByIndOptions(optss...)
 
 	type resultT struct {
@@ -447,7 +447,7 @@ type GetCandSectorInfo struct {
 }
 
 //go:generate genopts --function=GetCandSector "cycle:int"
-func (c *core) GetCandSector(cid string, optss ...GetCandSectorOption) (*GetCandSectorInfo, error) {
+func (c *Core) GetCandSector(cid string, optss ...GetCandSectorOption) (*GetCandSectorInfo, error) {
 	opts := MakeGetCandSectorOptions(optss...)
 
 	type resultT struct {
@@ -512,7 +512,7 @@ type GetCongCmteIndusInfo struct {
 }
 
 //go:generate genopts --function=GetCongCmteIndus "congno:int"
-func (c *core) GetCongCmteIndus(cmte, indus string, optss ...GetCongCmteIndusOption) (*GetCongCmteIndusInfo, error) {
+func (c *Core) GetCongCmteIndus(cmte, indus string, optss ...GetCongCmteIndusOption) (*GetCongCmteIndusInfo, error) {
 	opts := MakeGetCongCmteIndusOptions(optss...)
 
 	type resultT struct {
@@ -561,7 +561,7 @@ type OrgID struct {
 	Orgname string `json:"orgname"`
 }
 
-func (c *core) GetOrgs(org string) (*GetOrgInfo, error) {
+func (c *Core) GetOrgs(org string) (*GetOrgInfo, error) {
 	type resultT struct {
 		Response struct {
 			Organization []struct {
@@ -612,7 +612,7 @@ type GetOrgSummaryInfo struct {
 	Org Organization
 }
 
-func (c *core) GetOrgSummary(orgID string) (*GetOrgSummaryInfo, error) {
+func (c *Core) GetOrgSummary(orgID string) (*GetOrgSummaryInfo, error) {
 	type resultT struct {
 		Response struct {
 			Organization struct {
@@ -662,7 +662,7 @@ type GetIndependentExpendInfo struct {
 	IndependentExpendInfos []IndependentExpendInfo
 }
 
-func (c *core) GetIndependentExpend() (*GetIndependentExpendInfo, error) {
+func (c *Core) GetIndependentExpend() (*GetIndependentExpendInfo, error) {
 	type resultT struct {
 		Response struct {
 			Indexp []struct {
