@@ -275,10 +275,14 @@ type Contributor struct {
 	Indivs  string `json:"indivs"`
 }
 
-type GetCandContribInfo struct {
-	withError
+type CandContribInfo struct {
 	Recipient    SimpleCandidate
 	Contributors []Contributor
+}
+
+type GetCandContribInfo struct {
+	withError
+	CandContribInfo
 }
 
 //go:generate genopts --function=GetCandContrib "cycle:int"
@@ -312,11 +316,14 @@ func (c *Core) GetCandContrib(cid string, optss ...GetCandContribOption) (*GetCa
 		return nil, err
 	}
 
-	res := &GetCandContribInfo{
+	info := CandContribInfo{
 		Recipient: result.Response.Contributors.Attributes,
 	}
 	for _, c := range result.Response.Contributors.Contributor {
-		res.Contributors = append(res.Contributors, c.Attributes)
+		info.Contributors = append(info.Contributors, c.Attributes)
+	}
+	res := &GetCandContribInfo{
+		CandContribInfo: info,
 	}
 	return res, nil
 }

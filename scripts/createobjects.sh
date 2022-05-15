@@ -4,4 +4,5 @@
 #
 set -e
 
+rm -f model/*methods.go
 go run model/tools/createobjects.go

@@ -1,5 +1,7 @@
 package model
 
+import "bytes"
+
 // CandName returns the string CandName of this CandSummary
 func (c *CandSummary) CandName() string {
 	return c.info.CandName
@@ -73,4 +75,41 @@ func (c *CandSummary) Source() string {
 // LastUpdated returns the string LastUpdated of this CandSummary
 func (c *CandSummary) LastUpdated() string {
 	return c.info.LastUpdated
+}
+
+func (c *CandSummary) String() string {
+	var buf bytes.Buffer
+	buf.WriteString("CandSummary(")
+	buf.WriteString("CandName=")
+	buf.WriteString(c.CandName())
+	buf.WriteString(", CID=")
+	buf.WriteString(c.CID())
+	buf.WriteString(", Cycle=")
+	buf.WriteString(c.Cycle())
+	buf.WriteString(", State=")
+	buf.WriteString(c.State())
+	buf.WriteString(", Party=")
+	buf.WriteString(c.Party())
+	buf.WriteString(", Chamber=")
+	buf.WriteString(c.Chamber())
+	buf.WriteString(", FirstElected=")
+	buf.WriteString(c.FirstElected())
+	buf.WriteString(", NextElection=")
+	buf.WriteString(c.NextElection())
+	buf.WriteString(", Total=")
+	buf.WriteString(c.Total())
+	buf.WriteString(", Spent=")
+	buf.WriteString(c.Spent())
+	buf.WriteString(", CashOnHand=")
+	buf.WriteString(c.CashOnHand())
+	buf.WriteString(", Debt=")
+	buf.WriteString(c.Debt())
+	buf.WriteString(", Origin=")
+	buf.WriteString(c.Origin())
+	buf.WriteString(", Source=")
+	buf.WriteString(c.Source())
+	buf.WriteString(", LastUpdated=")
+	buf.WriteString(c.LastUpdated())
+	buf.WriteString(" )")
+	return buf.String()
 }

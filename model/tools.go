@@ -55,6 +55,17 @@ func CreateObject(proto ObjectProto) error {
 		return {{$objectVar}}.info.{{.Name}}
 	}
 	{{end}}
+
+	func ({{$objectVar}} *{{$objectName}}) String() string {
+		var buf bytes.Buffer
+		buf.WriteString("{{$objectName}}(")
+		{{- range $i, $v := .Fields }}
+			{{ if eq $i 0}}buf.WriteString("{{$v.Name}}="){{ else }}buf.WriteString(", {{$v.Name}}="){{ end }}
+			{{ if eq .Type "string" }}buf.WriteString({{$objectVar}}.{{$v.Name}}()){{ else }}buf.WriteString(fmt.Sprintf("%v", {{$objectVar}}.{{$v.Name}}())){{ end }}
+		{{- end }}
+		buf.WriteString(" )")
+		return buf.String()
+	}	
 	`
 	} else {
 		tmpl = `
@@ -72,9 +83,30 @@ func CreateObject(proto ObjectProto) error {
 		}
 		return info.{{.Name}}, nil
 	}
+
+	// {{.Name}} returns {{.Name}}() or panics if there is an error
+	func ({{$objectVar}} *{{$objectName}}) {{.Name}}OrPanic() {{.Type}} {
+		res, err := {{$objectVar}}.{{.Name}}()
+		if err != nil {
+			panic(fmt.Sprintf("error calling {{.Name}}(): %v", err))
+		}
+		return res
+	}
 	{{end}}
+
+	func ({{$objectVar}} *{{$objectName}}) String() string {
+		var buf bytes.Buffer
+		buf.WriteString("{{$objectName}}(")
+		{{- range $i, $v := .Fields }}
+			{{ if eq $i 0}}buf.WriteString("{{$v.Name}}="){{ else }}buf.WriteString(", {{$v.Name}}="){{ end }}
+			{{ if eq .Type "string" }}buf.WriteString({{$objectVar}}.{{$v.Name}}OrPanic()){{ else }}buf.WriteString(fmt.Sprintf("%v", {{$objectVar}}.{{$v.Name}}OrPanic())){{ end }}
+		{{- end }}
+		buf.WriteString(")")
+		return buf.String()
+	}	
 	`
 	}
+
 	output, err := renderTemplate(tmpl, proto.ObjectName, d)
 	if err != nil {
 		return err

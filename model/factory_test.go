@@ -23,6 +23,6 @@ func TestGetLegislators(t *testing.T) {
 		}
 	}
 	if !found {
-		t.Fatalf("did not find expecting firstlast %s", firstlast)
+		t.Errorf("did not find expecting firstlast %s", firstlast)
 	}
 }

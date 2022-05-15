@@ -1,13 +1,17 @@
 package model
 
-import "github.com/spudtrooper/opensecrets/api"
+import (
+	"github.com/spudtrooper/opensecrets/api"
+)
 
 type Legislator struct {
 	base
+	factory       *Factory
 	cid           CID
 	info          *api.LegislatorInfo
 	memPFDprofile *MemPFDprofile
 	candSummary   *CandSummary
+	contributors  []*Contributor
 }
 
 func (l *Legislator) getInfo() (*api.LegislatorInfo, error) {
@@ -45,4 +49,18 @@ func (l *Legislator) CandSummary() (*CandSummary, error) {
 		}
 	}
 	return l.candSummary, nil
+}
+
+func (l *Legislator) Contributors() ([]*Contributor, error) {
+	if l.contributors == nil {
+		l.contributors = []*Contributor{}
+		info, err := l.client.GetCandContrib(string(l.cid))
+		if err != nil {
+			return nil, err
+		}
+		for _, info := range info.Contributors {
+			l.contributors = append(l.contributors, &Contributor{info})
+		}
+	}
+	return l.contributors, nil
 }

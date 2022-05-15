@@ -19,8 +19,9 @@ func NewFactory(client *api.Core) *Factory {
 
 func (f *Factory) NewLegislator(cid CID) *Legislator {
 	return &Legislator{
-		base: base{f.client},
-		cid:  cid,
+		base:    base{f.client},
+		factory: f,
+		cid:     cid,
 	}
 }
 

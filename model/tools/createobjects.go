@@ -28,6 +28,12 @@ func realMain() {
 		OutputFile: "model/candsummarymethods.go",
 		Simple:     true,
 	}))
+	check.Err(model.CreateObject(model.ObjectProto{
+		ObjectName: "Contributor",
+		InfoProxy:  api.Contributor{},
+		OutputFile: "model/contributormethods.go",
+		Simple:     true,
+	}))
 }
 
 func main() {
