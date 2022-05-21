@@ -12,6 +12,7 @@ type Legislator struct {
 	memPFDprofile *MemPFDprofile
 	candSummary   *CandSummary
 	contributors  []*Contributor
+	industries    []*Industry
 }
 
 func (l *Legislator) getInfo() (*api.LegislatorInfo, error) {
@@ -63,4 +64,18 @@ func (l *Legislator) Contributors() ([]*Contributor, error) {
 		}
 	}
 	return l.contributors, nil
+}
+
+func (l *Legislator) Industries() ([]*Industry, error) {
+	if l.industries == nil {
+		l.industries = []*Industry{}
+		info, err := l.client.GetCandIndustry(string(l.cid))
+		if err != nil {
+			return nil, err
+		}
+		for _, info := range info.Industries {
+			l.industries = append(l.industries, &Industry{info})
+		}
+	}
+	return l.industries, nil
 }

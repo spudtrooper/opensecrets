@@ -39,7 +39,12 @@ func realMain() {
 		InfoProxy:  api.Organization{},
 		OutputFile: "model/orgmethods.go",
 	}))
-
+	check.Err(model.CreateObject(model.ObjectProto{
+		ObjectName: "Industry",
+		InfoProxy:  api.Industry{},
+		OutputFile: "model/industrymethods.go",
+		Simple:     true,
+	}))
 }
 
 func main() {

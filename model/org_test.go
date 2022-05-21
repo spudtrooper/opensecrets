@@ -23,7 +23,7 @@ func TestOrgs(t *testing.T) {
 			t.Fatalf("Orgname: %v", err)
 		}
 		names = append(names, name)
-		if name == orgName {
+		if name == orgName && o.Name() == orgName {
 			found = true
 			break
 		}

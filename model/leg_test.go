@@ -1,6 +1,7 @@
 package model
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -51,14 +52,41 @@ func TestContributors(t *testing.T) {
 		t.Errorf("expecting non-empty contributors")
 	}
 	const orgName = "Facebook Inc"
+	var names []string
 	found := false
 	for _, c := range contribs {
 		if c.OrgName() == orgName {
 			found = true
 			break
 		}
+		names = append(names, c.OrgName())
 	}
 	if !found {
-		t.Errorf("did not find expecting OrgName: %s", orgName)
+		t.Errorf("did not find expecting OrgName: %s, found: %s", orgName, strings.Join(names, ","))
+	}
+}
+
+func TestIndustries(t *testing.T) {
+	f := newFactoryForTesting(t)
+	leg := f.NewLegislator("N00007360")
+	inds, err := leg.Industries()
+	if err != nil {
+		t.Fatalf("Industries(): unexpected error: %v", err)
+	}
+	if len(inds) == 0 {
+		t.Errorf("expecting non-empty industries")
+	}
+	const industryName = "Health Professionals"
+	var names []string
+	found := false
+	for _, ind := range inds {
+		if ind.IndustryName() == industryName {
+			found = true
+			break
+		}
+		names = append(names, ind.IndustryName())
+	}
+	if !found {
+		t.Errorf("did not find expecting IndustryName: %s, found: %s", industryName, strings.Join(names, ","))
 	}
 }

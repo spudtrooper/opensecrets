@@ -18,3 +18,8 @@ func (o *Organization) getInfo() (*api.Organization, error) {
 	}
 	return o.info, nil
 }
+
+// Name returns the name from the ID.
+func (o *Organization) Name() string {
+	return o.id.Orgname
+}
