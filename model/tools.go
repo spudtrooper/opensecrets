@@ -51,9 +51,7 @@ func CreateObject(proto ObjectProto) error {
 
 	{{range .Fields}}
 	// {{.Name}} returns the {{.Type}} {{.Name}} of this {{$objectName}}
-	func ({{$objectVar}} *{{$objectName}}) {{.Name}}() {{.Type}} {
-		return {{$objectVar}}.info.{{.Name}}
-	}
+	func ({{$objectVar}} *{{$objectName}}) {{.Name}}() {{.Type}} { return {{$objectVar}}.info.{{.Name}}	}
 	{{end}}
 
 	func ({{$objectVar}} *{{$objectName}}) String() string {

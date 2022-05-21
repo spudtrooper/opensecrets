@@ -3,24 +3,16 @@ package model
 import "bytes"
 
 // OrgName returns the string OrgName of this Contributor
-func (c *Contributor) OrgName() string {
-	return c.info.OrgName
-}
+func (c *Contributor) OrgName() string { return c.info.OrgName }
 
 // Total returns the string Total of this Contributor
-func (c *Contributor) Total() string {
-	return c.info.Total
-}
+func (c *Contributor) Total() string { return c.info.Total }
 
 // Pacs returns the string Pacs of this Contributor
-func (c *Contributor) Pacs() string {
-	return c.info.Pacs
-}
+func (c *Contributor) Pacs() string { return c.info.Pacs }
 
 // Indivs returns the string Indivs of this Contributor
-func (c *Contributor) Indivs() string {
-	return c.info.Indivs
-}
+func (c *Contributor) Indivs() string { return c.info.Indivs }
 
 func (c *Contributor) String() string {
 	var buf bytes.Buffer
