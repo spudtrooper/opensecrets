@@ -25,6 +25,6 @@ func (c *Contributor) String() string {
 	buf.WriteString(c.Pacs())
 	buf.WriteString(", Indivs=")
 	buf.WriteString(c.Indivs())
-	buf.WriteString(" )")
+	buf.WriteString(")")
 	return buf.String()
 }

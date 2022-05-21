@@ -80,6 +80,6 @@ func (c *CandSummary) String() string {
 	buf.WriteString(c.Source())
 	buf.WriteString(", LastUpdated=")
 	buf.WriteString(c.LastUpdated())
-	buf.WriteString(" )")
+	buf.WriteString(")")
 	return buf.String()
 }

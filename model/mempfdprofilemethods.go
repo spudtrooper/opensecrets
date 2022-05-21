@@ -80,6 +80,6 @@ func (m *MemPFDprofile) String() string {
 	buf.WriteString(m.Origin())
 	buf.WriteString(", UpdateTimestamp=")
 	buf.WriteString(m.UpdateTimestamp())
-	buf.WriteString(" )")
+	buf.WriteString(")")
 	return buf.String()
 }

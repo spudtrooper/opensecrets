@@ -61,7 +61,7 @@ func CreateObject(proto ObjectProto) error {
 			{{ if eq $i 0}}buf.WriteString("{{$v.Name}}="){{ else }}buf.WriteString(", {{$v.Name}}="){{ end }}
 			{{ if eq .Type "string" }}buf.WriteString({{$objectVar}}.{{$v.Name}}()){{ else }}buf.WriteString(fmt.Sprintf("%v", {{$objectVar}}.{{$v.Name}}())){{ end }}
 		{{- end }}
-		buf.WriteString(" )")
+		buf.WriteString(")")
 		return buf.String()
 	}	
 	`

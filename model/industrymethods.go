@@ -30,6 +30,6 @@ func (i *Industry) String() string {
 	buf.WriteString(i.Pacs())
 	buf.WriteString(", Total=")
 	buf.WriteString(i.Total())
-	buf.WriteString(" )")
+	buf.WriteString(")")
 	return buf.String()
 }
