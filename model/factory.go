@@ -41,3 +41,19 @@ func (f *Factory) GetLegislators(state State) ([]*Legislator, error) {
 	}
 	return res, nil
 }
+
+func (f *Factory) GetOrgs(org string) ([]*Organization, error) {
+	info, err := f.client.GetOrgs(org)
+	if err != nil {
+		return nil, err
+	}
+	var res []*Organization
+	for _, o := range info.Orgs {
+		o := o
+		res = append(res, &Organization{
+			base: base{f.client},
+			id:   o,
+		})
+	}
+	return res, nil
+}
