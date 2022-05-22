@@ -45,6 +45,12 @@ func realMain() {
 		OutputFile: "model/industrymethods.go",
 		Simple:     true,
 	}))
+	check.Err(model.CreateObject(model.ObjectProto{
+		ObjectName: "Sector",
+		InfoProxy:  api.Sector{},
+		OutputFile: "model/sectormethods.go",
+		Simple:     true,
+	}))
 }
 
 func main() {

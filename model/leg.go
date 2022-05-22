@@ -13,6 +13,7 @@ type Legislator struct {
 	candSummary   *CandSummary
 	contributors  []*Contributor
 	industries    []*Industry
+	sectors       []*Sector
 }
 
 func (l *Legislator) getInfo() (*api.LegislatorInfo, error) {
@@ -78,4 +79,18 @@ func (l *Legislator) Industries() ([]*Industry, error) {
 		}
 	}
 	return l.industries, nil
+}
+
+func (l *Legislator) Sectors() ([]*Sector, error) {
+	if l.industries == nil {
+		l.sectors = []*Sector{}
+		info, err := l.client.GetCandSector(string(l.cid))
+		if err != nil {
+			return nil, err
+		}
+		for _, info := range info.Sectors {
+			l.sectors = append(l.sectors, &Sector{info})
+		}
+	}
+	return l.sectors, nil
 }

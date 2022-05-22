@@ -90,3 +90,28 @@ func TestIndustries(t *testing.T) {
 		t.Errorf("did not find expecting IndustryName: %s, found: %s", industryName, strings.Join(names, ","))
 	}
 }
+
+func TestSector(t *testing.T) {
+	f := newFactoryForTesting(t)
+	leg := f.NewLegislator("N00007360")
+	secs, err := leg.Sectors()
+	if err != nil {
+		t.Fatalf("Sectors(): unexpected error: %v", err)
+	}
+	if len(secs) == 0 {
+		t.Errorf("expecting non-empty sectors")
+	}
+	const sectorName = "Agribusiness"
+	var names []string
+	found := false
+	for _, s := range secs {
+		if s.SectorName() == sectorName {
+			found = true
+			break
+		}
+		names = append(names, s.SectorName())
+	}
+	if !found {
+		t.Errorf("did not find expecting SectorName: %s, found: %s", sectorName, strings.Join(names, ","))
+	}
+}
