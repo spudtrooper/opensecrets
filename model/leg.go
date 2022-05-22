@@ -55,42 +55,45 @@ func (l *Legislator) CandSummary() (*CandSummary, error) {
 
 func (l *Legislator) Contributors() ([]*Contributor, error) {
 	if l.contributors == nil {
-		l.contributors = []*Contributor{}
 		info, err := l.client.GetCandContrib(string(l.cid))
 		if err != nil {
 			return nil, err
 		}
+		contributors := []*Contributor{}
 		for _, info := range info.Contributors {
-			l.contributors = append(l.contributors, &Contributor{info})
+			contributors = append(contributors, &Contributor{info})
 		}
+		l.contributors = contributors
 	}
 	return l.contributors, nil
 }
 
 func (l *Legislator) Industries() ([]*Industry, error) {
 	if l.industries == nil {
-		l.industries = []*Industry{}
 		info, err := l.client.GetCandIndustry(string(l.cid))
 		if err != nil {
 			return nil, err
 		}
+		industries := []*Industry{}
 		for _, info := range info.Industries {
-			l.industries = append(l.industries, &Industry{info})
+			industries = append(industries, &Industry{info})
 		}
+		l.industries = industries
 	}
 	return l.industries, nil
 }
 
 func (l *Legislator) Sectors() ([]*Sector, error) {
 	if l.industries == nil {
-		l.sectors = []*Sector{}
 		info, err := l.client.GetCandSector(string(l.cid))
 		if err != nil {
 			return nil, err
 		}
+		sectors := []*Sector{}
 		for _, info := range info.Sectors {
-			l.sectors = append(l.sectors, &Sector{info})
+			sectors = append(sectors, &Sector{info})
 		}
+		l.sectors = sectors
 	}
 	return l.sectors, nil
 }
