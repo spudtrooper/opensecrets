@@ -1,6 +1,6 @@
 module github.com/spudtrooper/opensecrets
 
-go 1.17
+go 1.18
 
 replace github.com/spudtrooper/goutil => ../goutil
 
@@ -19,6 +19,7 @@ require (
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
+	github.com/motki/cli v0.4.0 // indirect
 	github.com/thomaso-mirodin/intmath v0.0.0-20160323211736-5dc6d854e46e // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.0.2 // indirect
