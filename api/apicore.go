@@ -49,6 +49,7 @@ func is404(err error) bool {
 	return err.Error() == "request status code: 404"
 }
 
+//go:generate genopts --function GetLegislators --params --required "id string"
 func (c *Core) GetLegislators(id string) (*GetLegislatorsInfo, error) {
 	if len(id) == 2 {
 		// this is a state
@@ -128,6 +129,7 @@ type GetLegislatorInfo struct {
 
 func (i *GetLegislatorInfo) Error() error { return i.err }
 
+//go:generate genopts --function GetLegislator --params --required "cid string"
 func (c *Core) GetLegislator(cid string) (*GetLegislatorInfo, error) {
 	leg, err := c.getLegislatorForCID(cid)
 	if err != nil {
@@ -168,7 +170,7 @@ type MemPFDprofileInfo struct {
 	UpdateTimestamp    string `json:"update_timestamp"`
 }
 
-//go:generate genopts --function=GetMemPFDprofile "year:int"
+//go:generate genopts --function GetMemPFDprofile --params --required "cid string" year:int
 func (c *Core) GetMemPFDprofile(cid string, optss ...GetMemPFDprofileOption) (*GetMemPFDprofileInfo, error) {
 	opts := MakeGetMemPFDprofileOptions(optss...)
 
@@ -225,7 +227,7 @@ type CandSummaryInfo struct {
 	LastUpdated  string `json:"last_updated"`
 }
 
-//go:generate genopts --function=GetCandSummary "cycle:int"
+//go:generate genopts --function GetCandSummary --params --required "cid string" "cycle:int"
 func (c *Core) GetCandSummary(cid string, optss ...GetCandSummaryOption) (*GetCandSummaryInfo, error) {
 	opts := MakeGetCandSummaryOptions(optss...)
 
@@ -285,7 +287,7 @@ type GetCandContribInfo struct {
 	CandContribInfo
 }
 
-//go:generate genopts --function=GetCandContrib "cycle:int"
+//go:generate genopts --function GetCandContrib --params --required "cid string" "cycle:int"
 func (c *Core) GetCandContrib(cid string, optss ...GetCandContribOption) (*GetCandContribInfo, error) {
 	opts := MakeGetCandContribOptions(optss...)
 
@@ -342,7 +344,7 @@ type GetCandIndustryInfo struct {
 	Industries []Industry
 }
 
-//go:generate genopts --function=GetCandIndustry "cycle:int"
+//go:generate genopts --function GetCandIndustry --params --required "cid string" "cycle:int"
 func (c *Core) GetCandIndustry(cid string, optss ...GetCandIndustryOption) (*GetCandIndustryInfo, error) {
 	opts := MakeGetCandIndustryOptions(optss...)
 
@@ -404,7 +406,7 @@ type GetCandByIndInfo struct {
 	CandByIndInfo
 }
 
-//go:generate genopts --function=GetCandByInd "cycle:int"
+//go:generate genopts --function GetCandByInd --params --required "cid string, ind string" "cycle:int"
 func (c *Core) GetCandByInd(cid, ind string, optss ...GetCandByIndOption) (*GetCandByIndInfo, error) {
 	opts := MakeGetCandByIndOptions(optss...)
 
@@ -453,7 +455,7 @@ type GetCandSectorInfo struct {
 	Sectors   []Sector
 }
 
-//go:generate genopts --function=GetCandSector "cycle:int"
+//go:generate genopts --function GetCandSector --params --required "cid string" "cycle:int"
 func (c *Core) GetCandSector(cid string, optss ...GetCandSectorOption) (*GetCandSectorInfo, error) {
 	opts := MakeGetCandSectorOptions(optss...)
 
@@ -518,8 +520,8 @@ type GetCongCmteIndusInfo struct {
 	CommitteeMembers []CommitteeMember
 }
 
-//go:generate genopts --function=GetCongCmteIndus "congno:int"
-func (c *Core) GetCongCmteIndus(cmte, indus string, optss ...GetCongCmteIndusOption) (*GetCongCmteIndusInfo, error) {
+//go:generate genopts --function GetCongCmteIndus --params --required "cmte string, ind string"  "congno:int"
+func (c *Core) GetCongCmteIndus(cmte, ind string, optss ...GetCongCmteIndusOption) (*GetCongCmteIndusInfo, error) {
 	opts := MakeGetCongCmteIndusOptions(optss...)
 
 	type resultT struct {
@@ -536,14 +538,14 @@ func (c *Core) GetCongCmteIndus(cmte, indus string, optss ...GetCongCmteIndusOpt
 
 	params := request.MakeParamsBuilder().
 		Add("cmte", cmte).
-		Add("indus", indus).
+		Add("indus", ind).
 		AddIfNotDefault("congno", opts.Congno()).
 		Build()
 	err := c.get("congCmteIndus", &result, params...)
 	if err != nil {
 		if is404(err) {
 			res := &GetCongCmteIndusInfo{
-				withError: withError{errors.Errorf("no congCmteIndus for cmte and indus: %s %s", cmte, indus)},
+				withError: withError{errors.Errorf("no congCmteIndus for cmte and indus: %s %s", cmte, ind)},
 			}
 			return res, nil
 		}
@@ -568,6 +570,7 @@ type OrgID struct {
 	Orgname string `json:"orgname"`
 }
 
+//go:generate genopts --function GetOrgs --params --required "org string"  "congno:int"
 func (c *Core) GetOrgs(org string) (*GetOrgInfo, error) {
 	type resultT struct {
 		Response struct {
@@ -619,6 +622,7 @@ type GetOrgSummaryInfo struct {
 	Org Organization
 }
 
+//go:generate genopts --function GetOrgSummary --params --required "orgID string"  "congno:int"
 func (c *Core) GetOrgSummary(orgID string) (*GetOrgSummaryInfo, error) {
 	type resultT struct {
 		Response struct {
@@ -669,6 +673,7 @@ type GetIndependentExpendInfo struct {
 	IndependentExpendInfos []IndependentExpendInfo
 }
 
+//go:generate genopts --function GetIndependentExpend --params
 func (c *Core) GetIndependentExpend() (*GetIndependentExpendInfo, error) {
 	type resultT struct {
 		Response struct {
