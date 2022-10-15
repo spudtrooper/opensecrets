@@ -1,9 +1,23 @@
 [
   {
-    "Handler": "GetOrgSummary",
+    "Handler": "GetLegislators",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 91
+      "line": 27
+    }
+  },
+  {
+    "Handler": "GetCandContrib",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 51
+    }
+  },
+  {
+    "Handler": "GetCandSector",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 67
     }
   },
   {
@@ -11,6 +25,13 @@
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
       "line": 99
+    }
+  },
+  {
+    "Handler": "GetLegislator",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 19
     }
   },
   {
@@ -35,20 +56,6 @@
     }
   },
   {
-    "Handler": "GetCandContrib",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 51
-    }
-  },
-  {
-    "Handler": "GetCandSector",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 67
-    }
-  },
-  {
     "Handler": "GetOrgs",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
@@ -56,17 +63,10 @@
     }
   },
   {
-    "Handler": "GetLegislator",
+    "Handler": "GetOrgSummary",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 19
-    }
-  },
-  {
-    "Handler": "GetLegislators",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 27
+      "line": 91
     }
   },
   {
