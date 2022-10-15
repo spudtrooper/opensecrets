@@ -1,5 +1,19 @@
 [
   {
+    "Handler": "GetLegislator",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 19
+    }
+  },
+  {
+    "Handler": "GetLegislators",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 27
+    }
+  },
+  {
     "Handler": "GetCandContrib",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
@@ -7,10 +21,24 @@
     }
   },
   {
-    "Handler": "GetLegislator",
+    "Handler": "GetCandSector",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 19
+      "line": 67
+    }
+  },
+  {
+    "Handler": "GetCongCmteIndus",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 75
+    }
+  },
+  {
+    "Handler": "GetIndependentExpend",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 99
     }
   },
   {
@@ -28,10 +56,10 @@
     }
   },
   {
-    "Handler": "GetCongCmteIndus",
+    "Handler": "GetCandByInd",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 75
+      "line": 59
     }
   },
   {
@@ -46,34 +74,6 @@
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
       "line": 91
-    }
-  },
-  {
-    "Handler": "GetIndependentExpend",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 99
-    }
-  },
-  {
-    "Handler": "GetLegislators",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 27
-    }
-  },
-  {
-    "Handler": "GetCandByInd",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 59
-    }
-  },
-  {
-    "Handler": "GetCandSector",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 67
     }
   }
 ]
