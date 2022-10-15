@@ -1,5 +1,26 @@
 [
   {
+    "Handler": "GetCongCmteIndus",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 75
+    }
+  },
+  {
+    "Handler": "GetOrgs",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 83
+    }
+  },
+  {
+    "Handler": "GetLegislator",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 19
+    }
+  },
+  {
     "Handler": "GetLegislators",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
@@ -21,6 +42,13 @@
     }
   },
   {
+    "Handler": "GetOrgSummary",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 91
+    }
+  },
+  {
     "Handler": "GetIndependentExpend",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
@@ -28,10 +56,10 @@
     }
   },
   {
-    "Handler": "GetLegislator",
+    "Handler": "GetMemPFDprofile",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 19
+      "line": 35
     }
   },
   {
@@ -46,34 +74,6 @@
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
       "line": 59
-    }
-  },
-  {
-    "Handler": "GetCongCmteIndus",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 75
-    }
-  },
-  {
-    "Handler": "GetOrgs",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 83
-    }
-  },
-  {
-    "Handler": "GetOrgSummary",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 91
-    }
-  },
-  {
-    "Handler": "GetMemPFDprofile",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 35
     }
   }
 ]
