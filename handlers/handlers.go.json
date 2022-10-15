@@ -1,37 +1,9 @@
 [
   {
-    "Handler": "GetLegislator",
+    "Handler": "GetOrgSummary",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 19
-    }
-  },
-  {
-    "Handler": "GetLegislators",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 27
-    }
-  },
-  {
-    "Handler": "GetCandContrib",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 51
-    }
-  },
-  {
-    "Handler": "GetCandSector",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 67
-    }
-  },
-  {
-    "Handler": "GetCongCmteIndus",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 75
+      "line": 91
     }
   },
   {
@@ -39,13 +11,6 @@
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
       "line": 99
-    }
-  },
-  {
-    "Handler": "GetMemPFDprofile",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 35
     }
   },
   {
@@ -63,6 +28,27 @@
     }
   },
   {
+    "Handler": "GetCongCmteIndus",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 75
+    }
+  },
+  {
+    "Handler": "GetCandContrib",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 51
+    }
+  },
+  {
+    "Handler": "GetCandSector",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 67
+    }
+  },
+  {
     "Handler": "GetOrgs",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
@@ -70,10 +56,24 @@
     }
   },
   {
-    "Handler": "GetOrgSummary",
+    "Handler": "GetLegislator",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 91
+      "line": 19
+    }
+  },
+  {
+    "Handler": "GetLegislators",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 27
+    }
+  },
+  {
+    "Handler": "GetMemPFDprofile",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 35
     }
   }
 ]
