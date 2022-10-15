@@ -9,7 +9,7 @@ replace github.com/spudtrooper/minimalcli => ../minimalcli
 require (
 	github.com/pkg/errors v0.9.1
 	github.com/spudtrooper/goutil v0.1.106
-	github.com/spudtrooper/minimalcli v0.0.23
+	github.com/spudtrooper/minimalcli v0.0.32
 )
 
 require (
