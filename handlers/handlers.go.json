@@ -1,33 +1,5 @@
 [
   {
-    "Handler": "GetLegislator",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 19
-    }
-  },
-  {
-    "Handler": "GetMemPFDprofile",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 35
-    }
-  },
-  {
-    "Handler": "GetCongCmteIndus",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 75
-    }
-  },
-  {
-    "Handler": "GetOrgs",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 83
-    }
-  },
-  {
     "Handler": "GetOrgSummary",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
@@ -35,10 +7,10 @@
     }
   },
   {
-    "Handler": "GetIndependentExpend",
+    "Handler": "GetLegislator",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 99
+      "line": 19
     }
   },
   {
@@ -46,6 +18,13 @@
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
       "line": 27
+    }
+  },
+  {
+    "Handler": "GetMemPFDprofile",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 35
     }
   },
   {
@@ -63,6 +42,13 @@
     }
   },
   {
+    "Handler": "GetCandSector",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 67
+    }
+  },
+  {
     "Handler": "GetCandByInd",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
@@ -70,10 +56,24 @@
     }
   },
   {
-    "Handler": "GetCandSector",
+    "Handler": "GetCongCmteIndus",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 67
+      "line": 75
+    }
+  },
+  {
+    "Handler": "GetOrgs",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 83
+    }
+  },
+  {
+    "Handler": "GetIndependentExpend",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 99
     }
   }
 ]
