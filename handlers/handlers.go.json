@@ -1,5 +1,19 @@
 [
   {
+    "Handler": "GetLegislator",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 19
+    }
+  },
+  {
+    "Handler": "GetMemPFDprofile",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 35
+    }
+  },
+  {
     "Handler": "GetCongCmteIndus",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
@@ -11,34 +25,6 @@
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
       "line": 83
-    }
-  },
-  {
-    "Handler": "GetLegislator",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 19
-    }
-  },
-  {
-    "Handler": "GetLegislators",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 27
-    }
-  },
-  {
-    "Handler": "GetCandContrib",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 51
-    }
-  },
-  {
-    "Handler": "GetCandSector",
-    "Loc": {
-      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 67
     }
   },
   {
@@ -56,10 +42,10 @@
     }
   },
   {
-    "Handler": "GetMemPFDprofile",
+    "Handler": "GetLegislators",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
-      "line": 35
+      "line": 27
     }
   },
   {
@@ -70,10 +56,24 @@
     }
   },
   {
+    "Handler": "GetCandContrib",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 51
+    }
+  },
+  {
     "Handler": "GetCandByInd",
     "Loc": {
       "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
       "line": 59
+    }
+  },
+  {
+    "Handler": "GetCandSector",
+    "Loc": {
+      "uri": "github.com/spudtrooper/opensecrets/blob/main/handlers/handlers.go",
+      "line": 67
     }
   }
 ]
