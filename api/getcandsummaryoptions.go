@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type GetCandSummaryOption func(*getCandSummaryOptionImpl)
+import "fmt"
+
+type GetCandSummaryOption struct {
+	f func(*getCandSummaryOptionImpl)
+	s string
+}
+
+func (o GetCandSummaryOption) String() string { return o.s }
 
 type GetCandSummaryOptions interface {
 	Cycle() int
@@ -9,19 +16,19 @@ type GetCandSummaryOptions interface {
 }
 
 func GetCandSummaryCycle(cycle int) GetCandSummaryOption {
-	return func(opts *getCandSummaryOptionImpl) {
+	return GetCandSummaryOption{func(opts *getCandSummaryOptionImpl) {
 		opts.has_cycle = true
 		opts.cycle = cycle
-	}
+	}, fmt.Sprintf("api.GetCandSummaryCycle(int %+v)}", cycle)}
 }
 func GetCandSummaryCycleFlag(cycle *int) GetCandSummaryOption {
-	return func(opts *getCandSummaryOptionImpl) {
+	return GetCandSummaryOption{func(opts *getCandSummaryOptionImpl) {
 		if cycle == nil {
 			return
 		}
 		opts.has_cycle = true
 		opts.cycle = *cycle
-	}
+	}, fmt.Sprintf("api.GetCandSummaryCycle(int %+v)}", cycle)}
 }
 
 type getCandSummaryOptionImpl struct {
@@ -46,7 +53,7 @@ func (o GetCandSummaryParams) Options() []GetCandSummaryOption {
 func makeGetCandSummaryOptionImpl(opts ...GetCandSummaryOption) *getCandSummaryOptionImpl {
 	res := &getCandSummaryOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

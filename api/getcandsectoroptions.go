@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type GetCandSectorOption func(*getCandSectorOptionImpl)
+import "fmt"
+
+type GetCandSectorOption struct {
+	f func(*getCandSectorOptionImpl)
+	s string
+}
+
+func (o GetCandSectorOption) String() string { return o.s }
 
 type GetCandSectorOptions interface {
 	Cycle() int
@@ -9,19 +16,19 @@ type GetCandSectorOptions interface {
 }
 
 func GetCandSectorCycle(cycle int) GetCandSectorOption {
-	return func(opts *getCandSectorOptionImpl) {
+	return GetCandSectorOption{func(opts *getCandSectorOptionImpl) {
 		opts.has_cycle = true
 		opts.cycle = cycle
-	}
+	}, fmt.Sprintf("api.GetCandSectorCycle(int %+v)}", cycle)}
 }
 func GetCandSectorCycleFlag(cycle *int) GetCandSectorOption {
-	return func(opts *getCandSectorOptionImpl) {
+	return GetCandSectorOption{func(opts *getCandSectorOptionImpl) {
 		if cycle == nil {
 			return
 		}
 		opts.has_cycle = true
 		opts.cycle = *cycle
-	}
+	}, fmt.Sprintf("api.GetCandSectorCycle(int %+v)}", cycle)}
 }
 
 type getCandSectorOptionImpl struct {
@@ -46,7 +53,7 @@ func (o GetCandSectorParams) Options() []GetCandSectorOption {
 func makeGetCandSectorOptionImpl(opts ...GetCandSectorOption) *getCandSectorOptionImpl {
 	res := &getCandSectorOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

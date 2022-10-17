@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type GetCandByIndOption func(*getCandByIndOptionImpl)
+import "fmt"
+
+type GetCandByIndOption struct {
+	f func(*getCandByIndOptionImpl)
+	s string
+}
+
+func (o GetCandByIndOption) String() string { return o.s }
 
 type GetCandByIndOptions interface {
 	Cycle() int
@@ -9,19 +16,19 @@ type GetCandByIndOptions interface {
 }
 
 func GetCandByIndCycle(cycle int) GetCandByIndOption {
-	return func(opts *getCandByIndOptionImpl) {
+	return GetCandByIndOption{func(opts *getCandByIndOptionImpl) {
 		opts.has_cycle = true
 		opts.cycle = cycle
-	}
+	}, fmt.Sprintf("api.GetCandByIndCycle(int %+v)}", cycle)}
 }
 func GetCandByIndCycleFlag(cycle *int) GetCandByIndOption {
-	return func(opts *getCandByIndOptionImpl) {
+	return GetCandByIndOption{func(opts *getCandByIndOptionImpl) {
 		if cycle == nil {
 			return
 		}
 		opts.has_cycle = true
 		opts.cycle = *cycle
-	}
+	}, fmt.Sprintf("api.GetCandByIndCycle(int %+v)}", cycle)}
 }
 
 type getCandByIndOptionImpl struct {
@@ -47,7 +54,7 @@ func (o GetCandByIndParams) Options() []GetCandByIndOption {
 func makeGetCandByIndOptionImpl(opts ...GetCandByIndOption) *getCandByIndOptionImpl {
 	res := &getCandByIndOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type GetCandIndustryOption func(*getCandIndustryOptionImpl)
+import "fmt"
+
+type GetCandIndustryOption struct {
+	f func(*getCandIndustryOptionImpl)
+	s string
+}
+
+func (o GetCandIndustryOption) String() string { return o.s }
 
 type GetCandIndustryOptions interface {
 	Cycle() int
@@ -9,19 +16,19 @@ type GetCandIndustryOptions interface {
 }
 
 func GetCandIndustryCycle(cycle int) GetCandIndustryOption {
-	return func(opts *getCandIndustryOptionImpl) {
+	return GetCandIndustryOption{func(opts *getCandIndustryOptionImpl) {
 		opts.has_cycle = true
 		opts.cycle = cycle
-	}
+	}, fmt.Sprintf("api.GetCandIndustryCycle(int %+v)}", cycle)}
 }
 func GetCandIndustryCycleFlag(cycle *int) GetCandIndustryOption {
-	return func(opts *getCandIndustryOptionImpl) {
+	return GetCandIndustryOption{func(opts *getCandIndustryOptionImpl) {
 		if cycle == nil {
 			return
 		}
 		opts.has_cycle = true
 		opts.cycle = *cycle
-	}
+	}, fmt.Sprintf("api.GetCandIndustryCycle(int %+v)}", cycle)}
 }
 
 type getCandIndustryOptionImpl struct {
@@ -46,7 +53,7 @@ func (o GetCandIndustryParams) Options() []GetCandIndustryOption {
 func makeGetCandIndustryOptionImpl(opts ...GetCandIndustryOption) *getCandIndustryOptionImpl {
 	res := &getCandIndustryOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

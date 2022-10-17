@@ -1,7 +1,12 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type GetIndependentExpendOption func(*getIndependentExpendOptionImpl)
+type GetIndependentExpendOption struct {
+	f func(*getIndependentExpendOptionImpl)
+	s string
+}
+
+func (o GetIndependentExpendOption) String() string { return o.s }
 
 type GetIndependentExpendOptions interface {
 }
@@ -19,7 +24,7 @@ func (o GetIndependentExpendParams) Options() []GetIndependentExpendOption {
 func makeGetIndependentExpendOptionImpl(opts ...GetIndependentExpendOption) *getIndependentExpendOptionImpl {
 	res := &getIndependentExpendOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

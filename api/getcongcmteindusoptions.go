@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type GetCongCmteIndusOption func(*getCongCmteIndusOptionImpl)
+import "fmt"
+
+type GetCongCmteIndusOption struct {
+	f func(*getCongCmteIndusOptionImpl)
+	s string
+}
+
+func (o GetCongCmteIndusOption) String() string { return o.s }
 
 type GetCongCmteIndusOptions interface {
 	Congno() int
@@ -9,19 +16,19 @@ type GetCongCmteIndusOptions interface {
 }
 
 func GetCongCmteIndusCongno(congno int) GetCongCmteIndusOption {
-	return func(opts *getCongCmteIndusOptionImpl) {
+	return GetCongCmteIndusOption{func(opts *getCongCmteIndusOptionImpl) {
 		opts.has_congno = true
 		opts.congno = congno
-	}
+	}, fmt.Sprintf("api.GetCongCmteIndusCongno(int %+v)}", congno)}
 }
 func GetCongCmteIndusCongnoFlag(congno *int) GetCongCmteIndusOption {
-	return func(opts *getCongCmteIndusOptionImpl) {
+	return GetCongCmteIndusOption{func(opts *getCongCmteIndusOptionImpl) {
 		if congno == nil {
 			return
 		}
 		opts.has_congno = true
 		opts.congno = *congno
-	}
+	}, fmt.Sprintf("api.GetCongCmteIndusCongno(int %+v)}", congno)}
 }
 
 type getCongCmteIndusOptionImpl struct {
@@ -47,7 +54,7 @@ func (o GetCongCmteIndusParams) Options() []GetCongCmteIndusOption {
 func makeGetCongCmteIndusOptionImpl(opts ...GetCongCmteIndusOption) *getCongCmteIndusOptionImpl {
 	res := &getCongCmteIndusOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

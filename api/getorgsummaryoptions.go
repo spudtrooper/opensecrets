@@ -1,7 +1,14 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type GetOrgSummaryOption func(*getOrgSummaryOptionImpl)
+import "fmt"
+
+type GetOrgSummaryOption struct {
+	f func(*getOrgSummaryOptionImpl)
+	s string
+}
+
+func (o GetOrgSummaryOption) String() string { return o.s }
 
 type GetOrgSummaryOptions interface {
 	Congno() int
@@ -9,19 +16,19 @@ type GetOrgSummaryOptions interface {
 }
 
 func GetOrgSummaryCongno(congno int) GetOrgSummaryOption {
-	return func(opts *getOrgSummaryOptionImpl) {
+	return GetOrgSummaryOption{func(opts *getOrgSummaryOptionImpl) {
 		opts.has_congno = true
 		opts.congno = congno
-	}
+	}, fmt.Sprintf("api.GetOrgSummaryCongno(int %+v)}", congno)}
 }
 func GetOrgSummaryCongnoFlag(congno *int) GetOrgSummaryOption {
-	return func(opts *getOrgSummaryOptionImpl) {
+	return GetOrgSummaryOption{func(opts *getOrgSummaryOptionImpl) {
 		if congno == nil {
 			return
 		}
 		opts.has_congno = true
 		opts.congno = *congno
-	}
+	}, fmt.Sprintf("api.GetOrgSummaryCongno(int %+v)}", congno)}
 }
 
 type getOrgSummaryOptionImpl struct {
@@ -46,7 +53,7 @@ func (o GetOrgSummaryParams) Options() []GetOrgSummaryOption {
 func makeGetOrgSummaryOptionImpl(opts ...GetOrgSummaryOption) *getOrgSummaryOptionImpl {
 	res := &getOrgSummaryOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }

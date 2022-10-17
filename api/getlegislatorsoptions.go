@@ -1,7 +1,12 @@
 // DO NOT EDIT MANUALLY: Generated from https://github.com/spudtrooper/genopts
 package api
 
-type GetLegislatorsOption func(*getLegislatorsOptionImpl)
+type GetLegislatorsOption struct {
+	f func(*getLegislatorsOptionImpl)
+	s string
+}
+
+func (o GetLegislatorsOption) String() string { return o.s }
 
 type GetLegislatorsOptions interface {
 }
@@ -20,7 +25,7 @@ func (o GetLegislatorsParams) Options() []GetLegislatorsOption {
 func makeGetLegislatorsOptionImpl(opts ...GetLegislatorsOption) *getLegislatorsOptionImpl {
 	res := &getLegislatorsOptionImpl{}
 	for _, opt := range opts {
-		opt(res)
+		opt.f(res)
 	}
 	return res
 }
