@@ -41,8 +41,8 @@ func (g *getCongCmteIndusOptionImpl) HasCongno() bool { return g.has_congno }
 
 type GetCongCmteIndusParams struct {
 	Cmte   string `json:"cmte" required:"true"`
-	Ind    string `json:"ind" required:"true"`
 	Congno int    `json:"congno"`
+	Ind    string `json:"ind" required:"true"`
 }
 
 func (o GetCongCmteIndusParams) Options() []GetCongCmteIndusOption {

@@ -40,8 +40,8 @@ func (g *getOrgsOptionImpl) Congno() int     { return g.congno }
 func (g *getOrgsOptionImpl) HasCongno() bool { return g.has_congno }
 
 type GetOrgsParams struct {
-	Org    string `json:"org" required:"true"`
 	Congno int    `json:"congno"`
+	Org    string `json:"org" required:"true"`
 }
 
 func (o GetOrgsParams) Options() []GetOrgsOption {

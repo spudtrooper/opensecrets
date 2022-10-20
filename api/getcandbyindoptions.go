@@ -41,8 +41,8 @@ func (g *getCandByIndOptionImpl) HasCycle() bool { return g.has_cycle }
 
 type GetCandByIndParams struct {
 	Cid   string `json:"cid" required:"true"`
-	Ind   string `json:"ind" required:"true"`
 	Cycle int    `json:"cycle"`
+	Ind   string `json:"ind" required:"true"`
 }
 
 func (o GetCandByIndParams) Options() []GetCandByIndOption {

@@ -40,8 +40,8 @@ func (g *getOrgSummaryOptionImpl) Congno() int     { return g.congno }
 func (g *getOrgSummaryOptionImpl) HasCongno() bool { return g.has_congno }
 
 type GetOrgSummaryParams struct {
-	OrgID  string `json:"org_id" required:"true"`
 	Congno int    `json:"congno"`
+	OrgID  string `json:"org_id" required:"true"`
 }
 
 func (o GetOrgSummaryParams) Options() []GetOrgSummaryOption {
