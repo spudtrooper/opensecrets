@@ -6,6 +6,10 @@ This is a golang API client for [opensecrets.org](http://opensecrets.org)
 
 See [cli/main.go](https://github.com/spudtrooper/opensecrets/blob/main/cli/main.go)
 
+### Deployed frontend
+
+https://api-dumpster-fire.herokuapp.com/opensecrets
+
 ## CLI
 
 The binary associated with this module is a minimal CLi which serves as an example use case.
