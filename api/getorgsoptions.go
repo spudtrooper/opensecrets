@@ -19,7 +19,7 @@ func GetOrgsCongno(congno int) GetOrgsOption {
 	return GetOrgsOption{func(opts *getOrgsOptionImpl) {
 		opts.has_congno = true
 		opts.congno = congno
-	}, fmt.Sprintf("api.GetOrgsCongno(int %+v)}", congno)}
+	}, fmt.Sprintf("api.GetOrgsCongno(int %+v)", congno)}
 }
 func GetOrgsCongnoFlag(congno *int) GetOrgsOption {
 	return GetOrgsOption{func(opts *getOrgsOptionImpl) {
@@ -28,7 +28,7 @@ func GetOrgsCongnoFlag(congno *int) GetOrgsOption {
 		}
 		opts.has_congno = true
 		opts.congno = *congno
-	}, fmt.Sprintf("api.GetOrgsCongno(int %+v)}", congno)}
+	}, fmt.Sprintf("api.GetOrgsCongno(int %+v)", congno)}
 }
 
 type getOrgsOptionImpl struct {

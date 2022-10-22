@@ -19,7 +19,7 @@ func GetCandSummaryCycle(cycle int) GetCandSummaryOption {
 	return GetCandSummaryOption{func(opts *getCandSummaryOptionImpl) {
 		opts.has_cycle = true
 		opts.cycle = cycle
-	}, fmt.Sprintf("api.GetCandSummaryCycle(int %+v)}", cycle)}
+	}, fmt.Sprintf("api.GetCandSummaryCycle(int %+v)", cycle)}
 }
 func GetCandSummaryCycleFlag(cycle *int) GetCandSummaryOption {
 	return GetCandSummaryOption{func(opts *getCandSummaryOptionImpl) {
@@ -28,7 +28,7 @@ func GetCandSummaryCycleFlag(cycle *int) GetCandSummaryOption {
 		}
 		opts.has_cycle = true
 		opts.cycle = *cycle
-	}, fmt.Sprintf("api.GetCandSummaryCycle(int %+v)}", cycle)}
+	}, fmt.Sprintf("api.GetCandSummaryCycle(int %+v)", cycle)}
 }
 
 type getCandSummaryOptionImpl struct {

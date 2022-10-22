@@ -19,7 +19,7 @@ func GetMemPFDprofileYear(year int) GetMemPFDprofileOption {
 	return GetMemPFDprofileOption{func(opts *getMemPFDprofileOptionImpl) {
 		opts.has_year = true
 		opts.year = year
-	}, fmt.Sprintf("api.GetMemPFDprofileYear(int %+v)}", year)}
+	}, fmt.Sprintf("api.GetMemPFDprofileYear(int %+v)", year)}
 }
 func GetMemPFDprofileYearFlag(year *int) GetMemPFDprofileOption {
 	return GetMemPFDprofileOption{func(opts *getMemPFDprofileOptionImpl) {
@@ -28,7 +28,7 @@ func GetMemPFDprofileYearFlag(year *int) GetMemPFDprofileOption {
 		}
 		opts.has_year = true
 		opts.year = *year
-	}, fmt.Sprintf("api.GetMemPFDprofileYear(int %+v)}", year)}
+	}, fmt.Sprintf("api.GetMemPFDprofileYear(int %+v)", year)}
 }
 
 type getMemPFDprofileOptionImpl struct {

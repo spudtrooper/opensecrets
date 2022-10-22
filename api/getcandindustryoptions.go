@@ -19,7 +19,7 @@ func GetCandIndustryCycle(cycle int) GetCandIndustryOption {
 	return GetCandIndustryOption{func(opts *getCandIndustryOptionImpl) {
 		opts.has_cycle = true
 		opts.cycle = cycle
-	}, fmt.Sprintf("api.GetCandIndustryCycle(int %+v)}", cycle)}
+	}, fmt.Sprintf("api.GetCandIndustryCycle(int %+v)", cycle)}
 }
 func GetCandIndustryCycleFlag(cycle *int) GetCandIndustryOption {
 	return GetCandIndustryOption{func(opts *getCandIndustryOptionImpl) {
@@ -28,7 +28,7 @@ func GetCandIndustryCycleFlag(cycle *int) GetCandIndustryOption {
 		}
 		opts.has_cycle = true
 		opts.cycle = *cycle
-	}, fmt.Sprintf("api.GetCandIndustryCycle(int %+v)}", cycle)}
+	}, fmt.Sprintf("api.GetCandIndustryCycle(int %+v)", cycle)}
 }
 
 type getCandIndustryOptionImpl struct {

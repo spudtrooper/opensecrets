@@ -19,7 +19,7 @@ func GetCandContribCycle(cycle int) GetCandContribOption {
 	return GetCandContribOption{func(opts *getCandContribOptionImpl) {
 		opts.has_cycle = true
 		opts.cycle = cycle
-	}, fmt.Sprintf("api.GetCandContribCycle(int %+v)}", cycle)}
+	}, fmt.Sprintf("api.GetCandContribCycle(int %+v)", cycle)}
 }
 func GetCandContribCycleFlag(cycle *int) GetCandContribOption {
 	return GetCandContribOption{func(opts *getCandContribOptionImpl) {
@@ -28,7 +28,7 @@ func GetCandContribCycleFlag(cycle *int) GetCandContribOption {
 		}
 		opts.has_cycle = true
 		opts.cycle = *cycle
-	}, fmt.Sprintf("api.GetCandContribCycle(int %+v)}", cycle)}
+	}, fmt.Sprintf("api.GetCandContribCycle(int %+v)", cycle)}
 }
 
 type getCandContribOptionImpl struct {

@@ -19,7 +19,7 @@ func GetCandByIndCycle(cycle int) GetCandByIndOption {
 	return GetCandByIndOption{func(opts *getCandByIndOptionImpl) {
 		opts.has_cycle = true
 		opts.cycle = cycle
-	}, fmt.Sprintf("api.GetCandByIndCycle(int %+v)}", cycle)}
+	}, fmt.Sprintf("api.GetCandByIndCycle(int %+v)", cycle)}
 }
 func GetCandByIndCycleFlag(cycle *int) GetCandByIndOption {
 	return GetCandByIndOption{func(opts *getCandByIndOptionImpl) {
@@ -28,7 +28,7 @@ func GetCandByIndCycleFlag(cycle *int) GetCandByIndOption {
 		}
 		opts.has_cycle = true
 		opts.cycle = *cycle
-	}, fmt.Sprintf("api.GetCandByIndCycle(int %+v)}", cycle)}
+	}, fmt.Sprintf("api.GetCandByIndCycle(int %+v)", cycle)}
 }
 
 type getCandByIndOptionImpl struct {

@@ -19,7 +19,7 @@ func GetCongCmteIndusCongno(congno int) GetCongCmteIndusOption {
 	return GetCongCmteIndusOption{func(opts *getCongCmteIndusOptionImpl) {
 		opts.has_congno = true
 		opts.congno = congno
-	}, fmt.Sprintf("api.GetCongCmteIndusCongno(int %+v)}", congno)}
+	}, fmt.Sprintf("api.GetCongCmteIndusCongno(int %+v)", congno)}
 }
 func GetCongCmteIndusCongnoFlag(congno *int) GetCongCmteIndusOption {
 	return GetCongCmteIndusOption{func(opts *getCongCmteIndusOptionImpl) {
@@ -28,7 +28,7 @@ func GetCongCmteIndusCongnoFlag(congno *int) GetCongCmteIndusOption {
 		}
 		opts.has_congno = true
 		opts.congno = *congno
-	}, fmt.Sprintf("api.GetCongCmteIndusCongno(int %+v)}", congno)}
+	}, fmt.Sprintf("api.GetCongCmteIndusCongno(int %+v)", congno)}
 }
 
 type getCongCmteIndusOptionImpl struct {

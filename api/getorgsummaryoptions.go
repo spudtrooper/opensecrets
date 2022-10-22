@@ -19,7 +19,7 @@ func GetOrgSummaryCongno(congno int) GetOrgSummaryOption {
 	return GetOrgSummaryOption{func(opts *getOrgSummaryOptionImpl) {
 		opts.has_congno = true
 		opts.congno = congno
-	}, fmt.Sprintf("api.GetOrgSummaryCongno(int %+v)}", congno)}
+	}, fmt.Sprintf("api.GetOrgSummaryCongno(int %+v)", congno)}
 }
 func GetOrgSummaryCongnoFlag(congno *int) GetOrgSummaryOption {
 	return GetOrgSummaryOption{func(opts *getOrgSummaryOptionImpl) {
@@ -28,7 +28,7 @@ func GetOrgSummaryCongnoFlag(congno *int) GetOrgSummaryOption {
 		}
 		opts.has_congno = true
 		opts.congno = *congno
-	}, fmt.Sprintf("api.GetOrgSummaryCongno(int %+v)}", congno)}
+	}, fmt.Sprintf("api.GetOrgSummaryCongno(int %+v)", congno)}
 }
 
 type getOrgSummaryOptionImpl struct {
